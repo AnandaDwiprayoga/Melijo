@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginHorizontal="24dp"
+    android:background="#FFF"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".presentation.auth.AccountChooserFragment"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="@string/choose_your_account"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btn_buyer"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_marginHorizontal="16dp"
+        android:background="@color/button_grey_color"
+        android:drawableStart="@drawable/ic_icon_buyer"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:text="@string/buyer" />
+
+    <Button
+        android:id="@+id/btn_supplier"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/button_grey_color"
+        android:drawableStart="@drawable/icon_supplier"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:text="@string/supplier" />
+
+    <Button
+        android:id="@+id/btn_seller"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/button_grey_color"
+        android:drawableStart="@drawable/icon_seller"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:text="@string/seller" />
+
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/btn_buyer"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="38dp"-->
+    <!--        android:clickable="true"-->
+    <!--        android:gravity="center"-->
+    <!--        android:layout_marginHorizontal="16dp"-->
+    <!--        android:background="@color/button_grey_color"-->
+    <!--        android:focusable="true">-->
+
+    <!--        <TextView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="@string/buyer"-->
+    <!--            android:textSize="14sp"-->
+    <!--            android:gravity="center"-->
+    <!--            android:textColor="@color/button_text_color"-->
+    <!--            android:drawablePadding="8dp"-->
+    <!--            app:drawableStartCompat="@drawable/icon_buyer" />-->
+
+    <!--    </LinearLayout>-->
+
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/btn_supplier"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="38dp"-->
+    <!--        android:clickable="true"-->
+    <!--        android:gravity="center"-->
+    <!--        android:layout_marginTop="12dp"-->
+    <!--        android:layout_marginHorizontal="16dp"-->
+    <!--        android:background="@color/button_grey_color"-->
+    <!--        android:focusable="true">-->
+
+    <!--        <TextView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="@string/supplier"-->
+    <!--            android:textSize="14sp"-->
+    <!--            android:gravity="center"-->
+    <!--            android:textColor="@color/button_text_color"-->
+    <!--            android:drawablePadding="8dp"-->
+    <!--            app:drawableStartCompat="@drawable/icon_buyer" />-->
+
+    <!--    </LinearLayout>-->
+
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/btn_seller"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="38dp"-->
+    <!--        android:clickable="true"-->
+    <!--        android:gravity="center"-->
+    <!--        android:layout_marginTop="12dp"-->
+    <!--        android:layout_marginHorizontal="16dp"-->
+    <!--        android:background="@color/button_grey_color"-->
+    <!--        android:focusable="true">-->
+
+    <!--        <TextView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="@string/seller"-->
+    <!--            android:textSize="14sp"-->
+    <!--            android:gravity="center"-->
+    <!--            android:textColor="@color/button_text_color"-->
+    <!--            android:drawablePadding="8dp"-->
+    <!--            app:drawableStartCompat="@drawable/icon_buyer" />-->
+
+</LinearLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homeProviderFragment"
+        android:title="@string/beranda"
+        android:icon="@drawable/ic_home"/>
+
+    <item
+        android:id="@+id/orderProviderFragment"
+        android:title="@string/pesanan"
+        android:icon="@drawable/ic_order"/>
+
+    <item
+        android:id="@+id/messageProviderFragment"
+        android:title="@string/inbox"
+        android:icon="@drawable/ic_message"/>
+
+    <item
+        android:id="@+id/accountProviderFragment"
+        android:title="@string/akun"
+        android:icon="@drawable/ic_person"/>
+</menu>

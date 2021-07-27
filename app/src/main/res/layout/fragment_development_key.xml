@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.developmentkey.DevelopmentKeyFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/development_key_label" 
+        android:textSize="16sp"
+        android:labelFor="@id/edt_key"
+        android:textColor="@android:color/black"
+        android:fontFamily="@font/poppins_medium" />
+    
+    <EditText
+        android:id="@+id/edt_key"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:inputType="textPassword"
+        android:importantForAutofill="no" />
+    
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/submit"
+        android:fontFamily="@font/poppins_semibold"
+        android:textColor="@color/button_text_color"
+        android:background="?colorPrimaryVariant"/>
+</LinearLayout>

@@ -1,0 +1,54 @@
+package com.pasukanlangit.id.melijo.data.network
+
+import com.pasukanlangit.id.melijo.data.network.model.request.LoginRequest
+import com.pasukanlangit.id.melijo.data.network.model.request.RegisterRequest
+import com.pasukanlangit.id.melijo.data.network.model.response.*
+import retrofit2.Response
+import retrofit2.http.*
+
+interface ApiService {
+    @GET("development/key")
+    suspend fun checkKeyIsValid(@Query("key") key: String) : Response<MetaResponse>
+
+    @POST("auth/user")
+    suspend fun loginUser(@Body loginRequest: LoginRequest) : Response<LoginUserResponse>
+
+    @POST("auth/producer")
+    suspend fun loginProducer(@Body loginRequest: LoginRequest) : Response<LoginProducerResponse>
+
+    @POST("auth/register/user")
+    suspend fun registerUser(@Body registerRequest: RegisterRequest) : Response<MetaResponse>
+
+    @POST("auth/register/seller")
+    suspend fun registerSeller(@Body registerRequest: RegisterRequest) : Response<MetaResponse>
+
+    @POST("auth/register/supplier")
+    suspend fun registerSupplier(@Body registerRequest: RegisterRequest) : Response<MetaResponse>
+
+    @POST("logout/producer")
+    suspend fun logoutProducer(@Header("Authorization") token: String) : Response<MetaResponse>
+
+    @POST("logout/user")
+    suspend fun logoutUser(@Header("Authorization") token: String) : Response<MetaResponse>
+
+    @GET("user/sellers")
+    suspend fun getListSellerByUser(@Header("Authorization") token: String) : Response<SellerListResponse>
+
+    @GET("user/seller/detail/{idSeller}")
+    suspend fun getSellerDetail(@Header("Authorization") token: String, @Path("idSeller") idSeller: Int) : Response<DetailSellerResponse>
+
+    @GET("product")
+    suspend fun getAllProductSupplier(@Header("Authorization") token: String) : Response<AllProductSupplierResponse>
+
+    @GET("product")
+    suspend fun getAllCategorySupplier(@Header("Authorization") token: String) : Response<CategoryResponse>
+
+    @GET("product")
+    suspend fun getAllProductByCategory(@Header("Authorization") token: String, @Query("category")categoryId: Int) : Response<AllProductSupplierResponse>
+
+    @GET("user/profile")
+    suspend fun getProfileUser(@Header("Authorization") token: String) : Response<UserProfileResponse>
+
+
+
+}

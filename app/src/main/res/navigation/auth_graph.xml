@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/splashScreenFragment">
+
+    <fragment
+        android:id="@+id/splashScreenFragment"
+        android:name="com.pasukanlangit.id.melijo.presentation.splashscreen.SplashScreenFragment"
+        android:label="fragment_splash_screen"
+        tools:layout="@layout/fragment_splash_screen" >
+        <action
+            android:id="@+id/action_splashScreenFragment_to_developmentKeyFragment"
+            app:destination="@id/developmentKeyFragment"
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"
+            />
+<!--        app:popUpTo="@id/splashScreenFragment"-->
+<!--        app:popUpToInclusive="true"-->
+    </fragment>
+    <dialog
+        android:id="@+id/developmentKeyFragment"
+        android:name="com.pasukanlangit.id.melijo.presentation.developmentkey.DevelopmentKeyFragment"
+        android:label="fragment_development_key"
+        tools:layout="@layout/fragment_development_key" >
+        <action
+            android:id="@+id/action_developmentKeyFragment_to_accountChooserFragment"
+            app:destination="@id/accountChooserFragment"
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top" />
+    </dialog>
+    <fragment
+        android:id="@+id/accountChooserFragment"
+        android:name="com.pasukanlangit.id.melijo.presentation.auth.AccountChooserFragment"
+        android:label="fragment_account_chooser"
+        tools:layout="@layout/fragment_account_chooser" >
+        <action
+            android:id="@+id/action_accountChooserFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.pasukanlangit.id.melijo.presentation.auth.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <argument
+            android:name="userType"
+            app:argType="com.pasukanlangit.id.melijo.presentation.auth.UserType" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.pasukanlangit.id.melijo.presentation.auth.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <argument
+            android:name="userType"
+            app:argType="com.pasukanlangit.id.melijo.presentation.auth.UserType" />
+    </fragment>
+
+    <!--    app:enterAnim="@anim/slide_in_right"-->
+<!--    app:exitAnim="@anim/slide_out_left"-->
+<!--    app:popEnterAnim="@anim/slide_in_left"-->
+<!--    app:popExitAnim="@anim/slide_out_right"-->
+</navigation>

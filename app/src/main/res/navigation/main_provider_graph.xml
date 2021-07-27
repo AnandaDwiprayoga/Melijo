@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_provider_graph"
+    app:startDestination="@id/homeProviderFragment">
+
+    <fragment
+        android:id="@+id/homeProviderFragment"
+        android:name="com.pasukanlangit.id.melijo.presentation.mainprovider.home.HomeProviderFragment"
+        android:label="fragment_home_provider"
+        tools:layout="@layout/fragment_home_provider" />
+    <fragment
+        android:id="@+id/accountProviderFragment"
+        android:name="com.pasukanlangit.id.melijo.presentation.mainprovider.acount.AccountProviderFragment"
+        android:label="fragment_account_provider"
+        tools:layout="@layout/fragment_account_provider" />
+    <fragment
+        android:id="@+id/messageProviderFragment"
+        android:name="com.pasukanlangit.id.melijo.presentation.mainprovider.message.MessageProviderFragment"
+        android:label="fragment_message_provider"
+        tools:layout="@layout/fragment_message_provider" />
+    <fragment
+        android:id="@+id/orderProviderFragment"
+        android:name="com.pasukanlangit.id.melijo.presentation.mainprovider.order.OrderProviderFragment"
+        android:label="fragment_order_provider"
+        tools:layout="@layout/fragment_order_provider" />
+</navigation>
