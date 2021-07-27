@@ -21,4 +21,6 @@ class MainViewModel @Inject constructor(
     fun getListSeller(token: String) = mainRepository.getListSellerByUser(token).asLiveData()
     fun getUserProfile(token: String) = mainRepository.getProfileUser(token).asLiveData()
 
+    fun setImageUser(photo: String) = mainRepository.setImageUser(photo)
+    fun setNameUser(name: String) = mainRepository.setNameUser(name)
 }

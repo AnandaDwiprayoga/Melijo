@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_semibold"
-            android:text="Ubah Profile"
+            android:text="@string/ubah_profile"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,5 +37,83 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/iv_profile"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="24dp"
+        tools:src="@color/secondary_dark"
+        app:layout_constraintTop_toBottomOf="@+id/wrapper_search"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+        android:id="@+id/btn_change_profile"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:padding="4dp"
+        app:layout_constraintEnd_toEndOf="@id/iv_profile"
+        app:layout_constraintBottom_toBottomOf="@id/iv_profile"
+        android:src="@drawable/icon_upload"/>
+
+    <EditText
+        android:id="@+id/edt_email"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:maxLines="1"
+        android:hint="@string/email"
+        android:textSize="12sp"
+        android:inputType="textEmailAddress"
+        android:layout_marginTop="14dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintTop_toBottomOf="@id/iv_profile"/>
+
+    <EditText
+        android:id="@+id/edt_phonenumber"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:maxLines="1"
+        android:hint="@string/no_hp"
+        android:textSize="12sp"
+        android:inputType="number"
+        android:layout_marginTop="4dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintTop_toBottomOf="@id/edt_email"/>
+
+    <EditText
+        android:id="@+id/edt_name"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:maxLines="1"
+        android:hint="@string/nama"
+        android:textSize="12sp"
+        android:inputType="textPersonName"
+        android:layout_marginTop="4dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintTop_toBottomOf="@id/edt_phonenumber"/>
+
+    <EditText
+        android:id="@+id/edt_address"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:maxLines="3"
+        android:hint="@string/alamat"
+        android:textSize="12sp"
+        android:inputType="textPostalAddress"
+        android:layout_marginTop="4dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintTop_toBottomOf="@id/edt_name"/>
+
+
+    <Button
+        android:id="@+id/btn_edit"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="?colorSecondaryVariant"
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/edt_address"
+        android:text="@string/ubah_profile"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

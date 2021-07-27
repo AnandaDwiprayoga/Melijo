@@ -3,6 +3,8 @@ package com.pasukanlangit.id.melijo.data.network
 import com.pasukanlangit.id.melijo.data.network.model.request.LoginRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.RegisterRequest
 import com.pasukanlangit.id.melijo.data.network.model.response.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -49,6 +51,16 @@ interface ApiService {
     @GET("user/profile")
     suspend fun getProfileUser(@Header("Authorization") token: String) : Response<UserProfileResponse>
 
+    @Multipart
+    @POST("user/profile")
+    suspend fun updateProfileUser(
+        @Header("Authorization") token: String,
+        @Part("name") name: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("address") address: RequestBody,
+        @Part("phoneNumber") phoneNumber: RequestBody,
+        @Part image : MultipartBody.Part?
+    ) : Response<MetaResponse>
 
 
 }

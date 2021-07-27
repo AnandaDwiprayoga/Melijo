@@ -1,6 +1,8 @@
 package com.pasukanlangit.id.melijo.data.network.model.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class UserProfileResponse(
 
@@ -11,6 +13,7 @@ data class UserProfileResponse(
 	val meta: Meta
 )
 
+@Parcelize
 data class ProfileResult(
 
 	@field:SerializedName("address")
@@ -29,7 +32,7 @@ data class ProfileResult(
 	val photo: String,
 
 	@field:SerializedName("email_verified_at")
-	val emailVerifiedAt: Any,
+	val emailVerifiedAt: String?,
 
 	@field:SerializedName("email")
 	val email: String,
@@ -39,4 +42,4 @@ data class ProfileResult(
 
 	@field:SerializedName("longitude")
 	val longitude: String
-)
+) : Parcelable

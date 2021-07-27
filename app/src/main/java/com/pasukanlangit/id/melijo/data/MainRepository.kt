@@ -15,6 +15,8 @@ import com.pasukanlangit.id.melijo.utils.MyNetwork
 import com.pasukanlangit.id.melijo.utils.MyResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import java.net.SocketTimeoutException
 import javax.inject.Inject
@@ -27,22 +29,22 @@ class MainRepository @Inject constructor(
     private val productDao: ProductDao
 ) {
     fun checkKeyIsValid(key: String) = flow {
-        if (myNetwork.isOnline()){
+        if (myNetwork.isOnline()) {
             emit(MyResponse.Loading(null))
 
             try {
                 val response = apiService.checkKeyIsValid(key)
 
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     emit(MyResponse.Success(response.body()))
-                }else{
+                } else {
                     val message = getErrorMessage(response.errorBody()?.string())
                     emit(MyResponse.Error(message, null))
                 }
-            }catch(timeOut: SocketTimeoutException){
+            } catch (timeOut: SocketTimeoutException) {
                 emit(MyResponse.Error("Terjadi Kesalahan", null))
             }
-        }else{
+        } else {
             emit(MyResponse.Error("Check your internet connection", null))
         }
     }
@@ -52,7 +54,7 @@ class MainRepository @Inject constructor(
             try {
                 val responseError = Gson().fromJson(errorBody, MetaResponse::class.java)
                 responseError.meta.message
-            }catch (e: JsonSyntaxException){
+            } catch (e: JsonSyntaxException) {
                 val responseError = Gson().fromJson(errorBody, MetaInputResponse::class.java)
                 responseError.meta.message[0].errors[0]
             }
@@ -60,53 +62,53 @@ class MainRepository @Inject constructor(
     }
 
     fun loginUser(loginRequest: LoginRequest) = flow {
-        if (myNetwork.isOnline()){
+        if (myNetwork.isOnline()) {
             emit(MyResponse.Loading(null))
 
             try {
                 val response = apiService.loginUser(loginRequest)
 
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     emit(MyResponse.Success(response.body()))
-                }else{
+                } else {
                     val message = getErrorMessage(response.errorBody()?.string())
                     emit(MyResponse.Error(message, null))
                 }
-            }catch(timeOut: SocketTimeoutException){
+            } catch (timeOut: SocketTimeoutException) {
                 emit(MyResponse.Error("Terjadi Kesalahan", null))
             }
-        }else{
+        } else {
             emit(MyResponse.Error("Check your internet connection", null))
         }
     }
 
     fun loginProducer(loginRequest: LoginRequest) = flow {
-        if (myNetwork.isOnline()){
+        if (myNetwork.isOnline()) {
             emit(MyResponse.Loading(null))
 
             try {
                 val response = apiService.loginProducer(loginRequest)
 
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     emit(MyResponse.Success(response.body()))
-                }else{
+                } else {
                     val message = getErrorMessage(response.errorBody()?.string())
                     emit(MyResponse.Error(message, null))
                 }
-            }catch(timeOut: SocketTimeoutException){
+            } catch (timeOut: SocketTimeoutException) {
                 emit(MyResponse.Error("Terjadi Kesalahan", null))
             }
-        }else{
+        } else {
             emit(MyResponse.Error("Check your internet connection", null))
         }
     }
 
     fun register(registerRequest: RegisterRequest, userType: UserType) = flow {
-        if (myNetwork.isOnline()){
+        if (myNetwork.isOnline()) {
             emit(MyResponse.Loading(null))
 
             try {
-                val response : Response<MetaResponse> = when (userType) {
+                val response: Response<MetaResponse> = when (userType) {
                     UserType.TYPE_BUYER -> {
                         apiService.registerUser(registerRequest)
                     }
@@ -118,136 +120,142 @@ class MainRepository @Inject constructor(
                     }
                 }
 
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     emit(MyResponse.Success(response.body()))
-                }else{
+                } else {
                     val message = getErrorMessage(response.errorBody()?.string())
                     emit(MyResponse.Error(message, null))
                 }
-            }catch(timeOut: SocketTimeoutException){
+            } catch (timeOut: SocketTimeoutException) {
                 emit(MyResponse.Error("Terjadi Kesalahan", null))
             }
-        }else{
+        } else {
             emit(MyResponse.Error("Check your internet connection", null))
         }
     }
 
     fun getListSellerByUser(accessToken: String) = flow {
-        if (myNetwork.isOnline()){
+        if (myNetwork.isOnline()) {
             emit(MyResponse.Loading(null))
 
             try {
                 val response = apiService.getListSellerByUser(accessToken)
 
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     emit(MyResponse.Success(response.body()))
-                }else{
+                } else {
                     val message = getErrorMessage(response.errorBody()?.string())
                     emit(MyResponse.Error(message, null))
                 }
-            }catch(timeOut: SocketTimeoutException){
+            } catch (timeOut: SocketTimeoutException) {
                 emit(MyResponse.Error("Terjadi Kesalahan", null))
             }
-        }else{
+        } else {
             emit(MyResponse.Error("Check your internet connection", null))
         }
     }
 
-    fun getDetailSeller(accessToken: String, idSeller: Int) : Flow<MyResponse<DetailSellerResponse>> =
+    fun getDetailSeller(
+        accessToken: String,
+        idSeller: Int
+    ): Flow<MyResponse<DetailSellerResponse>> =
         flow {
-            if (myNetwork.isOnline()){
+            if (myNetwork.isOnline()) {
                 emit(MyResponse.Loading(null))
 
                 try {
                     val response = apiService.getSellerDetail(accessToken, idSeller)
 
-                    if(response.isSuccessful){
+                    if (response.isSuccessful) {
                         emit(MyResponse.Success(response.body()))
-                    }else{
+                    } else {
                         val message = getErrorMessage(response.errorBody()?.string())
                         emit(MyResponse.Error(message, null))
                     }
-                }catch(timeOut: SocketTimeoutException){
+                } catch (timeOut: SocketTimeoutException) {
                     emit(MyResponse.Error("Terjadi Kesalahan", null))
                 }
-            }else{
+            } else {
                 emit(MyResponse.Error("Check your internet connection", null))
             }
         } as Flow<MyResponse<DetailSellerResponse>>
 
 
-    fun getAllProductSupplier(accessToken: String) : Flow<MyResponse<AllProductSupplierResponse>> =
+    fun getAllProductSupplier(accessToken: String): Flow<MyResponse<AllProductSupplierResponse>> =
         flow {
-            if (myNetwork.isOnline()){
+            if (myNetwork.isOnline()) {
                 emit(MyResponse.Loading(null))
 
                 try {
                     val response = apiService.getAllProductSupplier(accessToken)
 
-                    if(response.isSuccessful){
+                    if (response.isSuccessful) {
                         emit(MyResponse.Success(response.body()))
-                    }else{
+                    } else {
                         val message = getErrorMessage(response.errorBody()?.string())
                         emit(MyResponse.Error(message, null))
                     }
-                }catch(timeOut: SocketTimeoutException){
+                } catch (timeOut: SocketTimeoutException) {
                     emit(MyResponse.Error("Terjadi Kesalahan", null))
                 }
-            }else{
+            } else {
                 emit(MyResponse.Error("Check your internet connection", null))
             }
         } as Flow<MyResponse<AllProductSupplierResponse>>
 
-    fun getAllProductSupplierByCategory(accessToken: String, idCategory: Int) : Flow<MyResponse<AllProductSupplierResponse>> =
+    fun getAllProductSupplierByCategory(
+        accessToken: String,
+        idCategory: Int
+    ): Flow<MyResponse<AllProductSupplierResponse>> =
         flow {
-            if (myNetwork.isOnline()){
+            if (myNetwork.isOnline()) {
                 emit(MyResponse.Loading(null))
 
                 try {
-                    val response = apiService.getAllProductByCategory(accessToken,idCategory)
+                    val response = apiService.getAllProductByCategory(accessToken, idCategory)
 
-                    if(response.isSuccessful){
+                    if (response.isSuccessful) {
                         emit(MyResponse.Success(response.body()))
-                    }else{
+                    } else {
                         val message = getErrorMessage(response.errorBody()?.string())
                         emit(MyResponse.Error(message, null))
                     }
-                }catch(timeOut: SocketTimeoutException){
+                } catch (timeOut: SocketTimeoutException) {
                     emit(MyResponse.Error("Terjadi Kesalahan", null))
                 }
-            }else{
+            } else {
                 emit(MyResponse.Error("Check your internet connection", null))
             }
         } as Flow<MyResponse<AllProductSupplierResponse>>
 
-    fun getAllCategorySupplier(accessToken: String) : Flow<MyResponse<CategoryResponse>> =
+    fun getAllCategorySupplier(accessToken: String): Flow<MyResponse<CategoryResponse>> =
         flow {
-            if (myNetwork.isOnline()){
+            if (myNetwork.isOnline()) {
                 emit(MyResponse.Loading(null))
 
                 try {
                     val response = apiService.getAllCategorySupplier(accessToken)
 
-                    if(response.isSuccessful){
+                    if (response.isSuccessful) {
                         emit(MyResponse.Success(response.body()))
-                    }else{
+                    } else {
                         val message = getErrorMessage(response.errorBody()?.string())
                         emit(MyResponse.Error(message, null))
                     }
-                }catch(timeOut: SocketTimeoutException){
+                } catch (timeOut: SocketTimeoutException) {
                     emit(MyResponse.Error("Terjadi Kesalahan", null))
                 }
-            }else{
+            } else {
                 emit(MyResponse.Error("Check your internet connection", null))
             }
         } as Flow<MyResponse<CategoryResponse>>
 
     fun logout(accessToken: String, userType: UserType) = flow {
-        if (myNetwork.isOnline()){
+        if (myNetwork.isOnline()) {
             emit(MyResponse.Loading(null))
 
             try {
-                val response : Response<MetaResponse> = when (userType) {
+                val response: Response<MetaResponse> = when (userType) {
                     UserType.TYPE_BUYER -> {
                         apiService.logoutUser(accessToken)
                     }
@@ -259,55 +267,85 @@ class MainRepository @Inject constructor(
                     }
                 }
 
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     emit(MyResponse.Success(response.body()))
-                }else{
+                } else {
                     val message = getErrorMessage(response.errorBody()?.string())
                     emit(MyResponse.Error(message, null))
                 }
-            }catch(timeOut: SocketTimeoutException){
+            } catch (timeOut: SocketTimeoutException) {
                 emit(MyResponse.Error("Terjadi Kesalahan", null))
             }
-        }else{
+        } else {
             emit(MyResponse.Error("Check your internet connection", null))
         }
     }
 
-    fun getProfileUser(accessToken: String) : Flow<MyResponse<UserProfileResponse>> =
+    fun getProfileUser(accessToken: String): Flow<MyResponse<UserProfileResponse>> =
         flow {
-            if (myNetwork.isOnline()){
+            if (myNetwork.isOnline()) {
                 emit(MyResponse.Loading(null))
 
                 try {
                     val response = apiService.getProfileUser(accessToken)
 
-                    if(response.isSuccessful){
+                    if (response.isSuccessful) {
                         emit(MyResponse.Success(response.body()))
-                    }else{
+                    } else {
                         val message = getErrorMessage(response.errorBody()?.string())
                         emit(MyResponse.Error(message, null))
                     }
-                }catch(timeOut: SocketTimeoutException){
+                } catch (timeOut: SocketTimeoutException) {
                     emit(MyResponse.Error("Terjadi Kesalahan", null))
                 }
-            }else{
+            } else {
                 emit(MyResponse.Error("Check your internet connection", null))
             }
         } as Flow<MyResponse<UserProfileResponse>>
+
+    fun updateProfileUser(
+        token: String,
+        name: RequestBody,
+        email: RequestBody,
+        address: RequestBody,
+        phoneNumber: RequestBody,
+        image: MultipartBody.Part?
+    ): Flow<MyResponse<MetaResponse>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+
+                try {
+                    val response = apiService.updateProfileUser(token, name, email, address, phoneNumber, image)
+
+                    if (response.isSuccessful) {
+                        emit(MyResponse.Success(response.body()))
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOut: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            } else {
+                emit(MyResponse.Error("Check your internet connection", null))
+            }
+        } as Flow<MyResponse<MetaResponse>>
+
 
     fun getProductSaved() = productDao.getAllProductFromCart()
 
     fun setAccessToken(token: String) = authSharedPref.setAccessToken(token)
     fun setImageUser(photo: String) = authSharedPref.setImageUser(photo)
     fun setNameUser(name: String) = authSharedPref.setNameUser(name)
-    fun getAccessToken() : String? = authSharedPref.getAccessToken()
-    fun removeAccessToken()  = authSharedPref.removeAccessToken()
+    fun getAccessToken(): String? = authSharedPref.getAccessToken()
+    fun removeAccessToken() = authSharedPref.removeAccessToken()
     fun setAccountType(accountType: String) = authSharedPref.setAccountType(accountType)
-    fun getAccountType() : String? = authSharedPref.getAccountType()
-    fun getImageUser() : String? = authSharedPref.getImageUser()
-    fun getNameUser() : String? = authSharedPref.getNameUser()
+    fun getAccountType(): String? = authSharedPref.getAccountType()
+    fun getImageUser(): String? = authSharedPref.getImageUser()
+    fun getNameUser(): String? = authSharedPref.getNameUser()
     fun setSession(value: Boolean) = authSharedPref.setIsSaveSession(value)
-    fun getSession() : Boolean = authSharedPref.getIsSaveSession()
+    fun getSession(): Boolean = authSharedPref.getIsSaveSession()
     suspend fun insertProduct(productItem: ProductItem) = productDao.insertProduct(productItem)
     suspend fun updateProduct(productItem: ProductItem) = productDao.updateProduct(productItem)
     suspend fun deleteProduct(productItem: ProductItem) = productDao.deleteProduct(productItem)
