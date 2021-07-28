@@ -26,6 +26,7 @@ class DetailSellerActivity : AppCompatActivity(R.layout.activity_detail_seller),
     private val binding: ActivityDetailSellerBinding by viewBinding()
     private val viewModel: DetailSellerViewModel by viewModels()
     private var distanceSeller : String ?= "0.0"
+    private var ownerId: Int = 0
 
     private lateinit var adapter : ProductSellerDetailAdapter
 
@@ -49,6 +50,7 @@ class DetailSellerActivity : AppCompatActivity(R.layout.activity_detail_seller),
         binding.wrapperCartFloating.setOnClickListener {
             Intent(this, CheckoutSellerActivity::class.java).apply {
                 putExtra(DISTANCE_SELLER, distanceSeller)
+                putExtra(CheckoutSellerActivity.KEY_OWNER_ID, ownerId)
                 startActivity(this)
             }
 
@@ -89,6 +91,9 @@ class DetailSellerActivity : AppCompatActivity(R.layout.activity_detail_seller),
             binding.loading.isVisible = it is MyResponse.Loading
             if(it is MyResponse.Success){
                 it.data?.result.let {  detailSellerResponse ->
+                    ownerId = detailSellerResponse?.bio?.id ?: 0
+
+                    viewModel.collectProductSaved(ownerId)
 
                     Glide.with(this).load(detailSellerResponse?.bio?.photo).into(binding.ivSeller)
                     binding.tvRating.text = detailSellerResponse?.bio?.rating.toString()
@@ -111,14 +116,14 @@ class DetailSellerActivity : AppCompatActivity(R.layout.activity_detail_seller),
     }
 
     override fun onAddToCart(productItem: ProductItem) {
-        viewModel.saveProductToCart(productItem)
+        viewModel.saveProductToCart(productItem.copy(ownerId = ownerId))
     }
 
     override fun updateProductCart(productItem: ProductItem) {
-        viewModel.updateProductCart(productItem)
+        viewModel.updateProductCart(productItem.copy(ownerId = ownerId))
     }
 
     override fun deleteProductCart(productItem: ProductItem) {
-        viewModel.deleteProductCart(productItem)
+        viewModel.deleteProductCart(productItem.copy(ownerId = ownerId))
     }
 }

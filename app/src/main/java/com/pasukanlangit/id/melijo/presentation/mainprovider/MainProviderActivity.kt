@@ -9,6 +9,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.pasukanlangit.id.melijo.R
 import com.pasukanlangit.id.melijo.databinding.ActivityMainProviderBinding
 import com.pasukanlangit.id.melijo.utils.MyUtils
+import dagger.hilt.android.AndroidEntryPoint
 
 class MainProviderActivity : AppCompatActivity(R.layout.activity_main_provider) {
 

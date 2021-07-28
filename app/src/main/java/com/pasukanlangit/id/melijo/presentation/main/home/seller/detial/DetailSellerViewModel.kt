@@ -15,9 +15,6 @@ class DetailSellerViewModel @Inject constructor(
     private val mainRepository: MainRepository
 ) : ViewModel(){
 
-    init {
-        collectProductSaved()
-    }
 
     private val _detailSeller = MutableLiveData<MyResponse<DetailSellerResponse>>()
     val detailSeller : LiveData<MyResponse<DetailSellerResponse>> = _detailSeller
@@ -25,13 +22,12 @@ class DetailSellerViewModel @Inject constructor(
     private val _productCartSaved = MutableLiveData<List<ProductItem>>()
     val productCartSaved : LiveData<List<ProductItem>> = _productCartSaved
 
-
     private val _productCartSync = MutableLiveData<List<ProductItem>?>()
     val productCartSync : LiveData<List<ProductItem>?> = _productCartSync
 
 
-    private fun collectProductSaved() = viewModelScope.launch {
-        mainRepository.getProductSaved().collect {
+    fun collectProductSaved(ownerId: Int) = viewModelScope.launch {
+        mainRepository.getProductSaved(ownerId).collect {
             _productCartSaved.value = it
             syncServerWithDb(detailSeller.value?.data?.result?.product)
         }

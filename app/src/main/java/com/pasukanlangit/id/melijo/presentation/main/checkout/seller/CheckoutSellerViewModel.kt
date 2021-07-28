@@ -21,12 +21,8 @@ class CheckoutSellerViewModel @Inject constructor(private val mainRepository: Ma
     private val _productCartSaved = MutableLiveData<List<ProductItem>>()
     val productCartSaved : LiveData<List<ProductItem>> = _productCartSaved
 
-    init {
-        collectProductSaved()
-    }
-
-    private fun collectProductSaved() = viewModelScope.launch {
-        mainRepository.getProductSaved().collect {
+    fun collectProductSaved(ownerId: Int) = viewModelScope.launch {
+        mainRepository.getProductSaved(ownerId).collect {
             _productCartSaved.value = it
         }
     }

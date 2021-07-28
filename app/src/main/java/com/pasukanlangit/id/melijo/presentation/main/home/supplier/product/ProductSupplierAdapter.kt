@@ -3,6 +3,7 @@ package com.pasukanlangit.id.melijo.presentation.main.home.supplier.product
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -10,8 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.pasukanlangit.id.melijo.data.network.model.response.ProductItem
 import com.pasukanlangit.id.melijo.databinding.ItemProductSupplierBinding
+import com.pasukanlangit.id.melijo.presentation.main.home.seller.detial.ProductSellerDetailAdapter
 
-class ProductSupplierAdapter : ListAdapter<ProductItem, ProductSupplierAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class ProductSupplierAdapter(private val productItemEvent: ProductSellerDetailAdapter.ProductItemEvent) : ListAdapter<ProductItem, ProductSupplierAdapter.MyViewHolder>(DIFF_CALLBACK) {
     inner class MyViewHolder(val binding: ItemProductSupplierBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -19,8 +21,9 @@ class ProductSupplierAdapter : ListAdapter<ProductItem, ProductSupplierAdapter.M
         return MyViewHolder(view)
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "ClickableViewAccessibility")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        var propMustShown = false
         val currentProduct = getItem(position)
         with(holder.binding){
             Glide.with(this.root)
@@ -29,8 +32,55 @@ class ProductSupplierAdapter : ListAdapter<ProductItem, ProductSupplierAdapter.M
                 .into(ivProduct)
 
             tvNameProduct.text = currentProduct.name
-            tvPriceProduct.text = "Rp ${currentProduct.price.toString()}"
+            tvPriceProduct.text = "Rp ${currentProduct.price}"
             labelAvailable.isVisible = currentProduct.stock > 0
+
+            this.root.setOnClickListener {
+                propMustShown = !propMustShown
+                wrapperInputQty.isVisible = propMustShown
+            }
+
+            edtQty.setText(currentProduct.qty.toString())
+
+//            btnAddCart.setOnClickListener {
+//                currentList[position].qty = 1
+//                wrapperQtyProduct.isVisible = true
+//                btnAddCart.isVisible = false
+//
+//                productItemEvent.onAddToCart(currentList[position])
+//            }
+
+            btnAdd.setOnClickListener {
+                val currentQty = edtQty.text.toString().trim().toInt()
+                if(currentProduct.stock > currentQty){
+                    val newQty = currentQty.inc()
+
+                    currentList[position].qty = newQty
+                    edtQty.setText(newQty.toString())
+
+                    if(newQty == 1) productItemEvent.onAddToCart(currentList[position])
+                    else productItemEvent.updateProductCart(currentList[position])
+                    notifyDataSetChanged()
+                }else{
+                    Toast.makeText(this.root.context,"Product out of stock", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            btnMinus.setOnClickListener {
+                val currentQty = edtQty.text.toString().trim().toInt()
+                if(currentQty > 1){
+                    val newQty = currentQty.dec()
+
+                    currentList[position].qty = newQty
+                    edtQty.setText(newQty.toString())
+                    productItemEvent.updateProductCart(currentList[position])
+                    notifyDataSetChanged()
+                }else{
+                    productItemEvent.deleteProductCart(currentList[position])
+                    notifyDataSetChanged()
+                }
+            }
+
         }
     }
 

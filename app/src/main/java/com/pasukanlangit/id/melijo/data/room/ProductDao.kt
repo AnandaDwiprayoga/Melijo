@@ -16,6 +16,6 @@ interface ProductDao {
     @Delete
     suspend fun deleteProduct(productItem: ProductItem)
 
-    @Query("SELECT * FROM product")
-    fun getAllProductFromCart() : Flow<List<ProductItem>>
+    @Query("SELECT * FROM product WHERE ownerId = :ownerId")
+    fun getAllProductFromCart(ownerId: Int) : Flow<List<ProductItem>>
 }

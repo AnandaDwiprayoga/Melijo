@@ -333,7 +333,7 @@ class MainRepository @Inject constructor(
         } as Flow<MyResponse<MetaResponse>>
 
 
-    fun getProductSaved() = productDao.getAllProductFromCart()
+    fun getProductSaved(ownerId: Int) = productDao.getAllProductFromCart(ownerId)
 
     fun setAccessToken(token: String) = authSharedPref.setAccessToken(token)
     fun setImageUser(photo: String) = authSharedPref.setImageUser(photo)

@@ -47,7 +47,9 @@ data class ProductItem(
 	@field:SerializedName("picture")
 	val picture: String,
 
-	var qty : Int = 0
+	var qty : Int = 0,
+
+	var ownerId: Int = -1
 )
 
 

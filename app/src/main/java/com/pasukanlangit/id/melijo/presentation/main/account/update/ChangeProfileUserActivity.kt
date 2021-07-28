@@ -2,7 +2,6 @@ package com.pasukanlangit.id.melijo.presentation.main.account.update
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -12,7 +11,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.github.razir.progressbutton.hideProgress
@@ -20,6 +18,7 @@ import com.pasukanlangit.id.melijo.R
 import com.pasukanlangit.id.melijo.data.network.model.response.ProfileResult
 import com.pasukanlangit.id.melijo.databinding.ActivityChangeProfileUserBinding
 import com.pasukanlangit.id.melijo.utils.*
+import com.pasukanlangit.id.melijo.utils.MyUtils.hasPermissions
 import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -77,7 +76,7 @@ class ChangeProfileUserActivity : AppCompatActivity(R.layout.activity_change_pro
                     return@setOnClickListener
                 }
 
-                if (hasPermissions(PERMISSIONS)) {
+                if (hasPermissions(this@ChangeProfileUserActivity,PERMISSIONS)) {
                     selectImageIntent()
                 } else {
                     permReqLauncher.launch(
@@ -91,9 +90,7 @@ class ChangeProfileUserActivity : AppCompatActivity(R.layout.activity_change_pro
         observeAccountUpdated()
     }
 
-    private fun hasPermissions(permissions: Array<String>): Boolean = permissions.all {
-        ActivityCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
-    }
+
 
     private fun observeAccountUpdated() {
         viewModel.updatedProfile.observe(this) {
