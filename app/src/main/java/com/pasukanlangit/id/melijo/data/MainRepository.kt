@@ -295,6 +295,27 @@ class MainRepository @Inject constructor(
             }
         } as Flow<MyResponse<UserProfileResponse>>
 
+    fun getProductsProvider(accessToken: String): Flow<MyResponse<AllProductSupplierResponse>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+                try {
+                    val response = apiService.getProductsProvider(accessToken)
+
+                    if (response.isSuccessful) {
+                        emit(MyResponse.Success(response.body()))
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOut: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            } else {
+                emit(MyResponse.Error("Check yout internet connection", null))
+            }
+        } as Flow<MyResponse<AllProductSupplierResponse>>
+
     fun getProductSaved() = productDao.getAllProductFromCart()
 
     fun setAccessToken(token: String) = authSharedPref.setAccessToken(token)

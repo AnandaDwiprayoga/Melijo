@@ -54,4 +54,7 @@
     <string name="pesan">Pesan</string>
     <string name="zero_value">0</string>
     <string name="no_telp">No Telp.</string>
+    <string name="button_back">Kembali</string>
+    <string name="add">Tambah</string>
+    <string name="title_list_product">Daftar Barang Jualan</string>
 </resources>
