@@ -57,4 +57,5 @@
     <string name="button_back">Kembali</string>
     <string name="add">Tambah</string>
     <string name="title_list_product">Daftar Barang Jualan</string>
+    <string name="title_list_category">Daftar Kategori Barang</string>
 </resources>

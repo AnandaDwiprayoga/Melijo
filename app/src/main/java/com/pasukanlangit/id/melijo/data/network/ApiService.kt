@@ -49,6 +49,9 @@ interface ApiService {
     @GET("user/profile")
     suspend fun getProfileUser(@Header("Authorization") token: String) : Response<UserProfileResponse>
 
+    @GET("producer/category")
+    suspend fun getCategoryProvider(@Header("Authorization") token: String): Response<CategoryResponse>
+
     @GET("producer/product")
     suspend fun getProductsProvider(@Header("Authorization") token: String): Response<AllProductSupplierResponse>
 }

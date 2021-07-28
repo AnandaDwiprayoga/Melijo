@@ -316,6 +316,25 @@ class MainRepository @Inject constructor(
             }
         } as Flow<MyResponse<AllProductSupplierResponse>>
 
+    fun getCategoryProvider(accessToken: String): Flow<MyResponse<CategoryResponse>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+                try {
+                    val response = apiService.getCategoryProvider(accessToken)
+
+                    if (response.isSuccessful) {
+                        emit(MyResponse.Success(response.body()))
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOute: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            }
+        } as Flow<MyResponse<CategoryResponse>>
+
     fun getProductSaved() = productDao.getAllProductFromCart()
 
     fun setAccessToken(token: String) = authSharedPref.setAccessToken(token)
