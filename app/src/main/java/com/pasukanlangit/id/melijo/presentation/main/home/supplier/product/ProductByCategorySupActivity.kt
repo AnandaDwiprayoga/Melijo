@@ -1,5 +1,6 @@
 package com.pasukanlangit.id.melijo.presentation.main.home.supplier.product
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -11,6 +12,8 @@ import com.pasukanlangit.id.melijo.R
 import com.pasukanlangit.id.melijo.data.network.model.response.CategoryResultItem
 import com.pasukanlangit.id.melijo.data.network.model.response.ProductItem
 import com.pasukanlangit.id.melijo.databinding.ActivityProductByCategorySupBinding
+import com.pasukanlangit.id.melijo.presentation.main.checkout.seller.CheckoutSellerActivity
+import com.pasukanlangit.id.melijo.presentation.main.home.seller.detial.DetailSellerActivity
 import com.pasukanlangit.id.melijo.presentation.main.home.seller.detial.ProductSellerDetailAdapter
 import com.pasukanlangit.id.melijo.utils.GridSpacingItemDecoration
 import com.pasukanlangit.id.melijo.utils.MyResponse
@@ -37,6 +40,17 @@ class ProductByCategorySupActivity : AppCompatActivity(R.layout.activity_product
         categoryIntent?.let { category ->
             viewModel.getProductsByCategory(category.id)
             binding.tvNameCategory.text = category.name
+        }
+
+        binding.wrapperCartFloating.setOnClickListener {
+            Intent(this, CheckoutSellerActivity::class.java).apply {
+                putExtra(DetailSellerActivity.DISTANCE_SELLER, MyUtils.getRandomDistance() )
+                putExtra(
+                    CheckoutSellerActivity.KEY_OWNER_ID,
+                    ProductSupplierViewModel.OWNER_ID_SUPPLIER
+                )
+                startActivity(this)
+            }
         }
 
         setUpRecyclerView()

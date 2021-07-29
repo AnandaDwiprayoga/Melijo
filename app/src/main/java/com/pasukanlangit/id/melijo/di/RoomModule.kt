@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.pasukanlangit.id.melijo.data.room.MelijoDatabase
 import com.pasukanlangit.id.melijo.data.room.ProductDao
+import com.pasukanlangit.id.melijo.data.room.PromoDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,4 +22,7 @@ object RoomModule {
 
     @Provides
     fun provideProductDao(db : MelijoDatabase) : ProductDao = db.productDao()
+
+    @Provides
+    fun providePromoDao(db : MelijoDatabase) : PromoDao = db.promoDao()
 }

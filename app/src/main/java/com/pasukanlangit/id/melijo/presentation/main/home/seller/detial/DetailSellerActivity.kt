@@ -25,7 +25,7 @@ class DetailSellerActivity : AppCompatActivity(R.layout.activity_detail_seller),
 
     private val binding: ActivityDetailSellerBinding by viewBinding()
     private val viewModel: DetailSellerViewModel by viewModels()
-    private var distanceSeller : String ?= "0.0"
+    private var distanceSeller : Int = 0
     private var ownerId: Int = 0
 
     private lateinit var adapter : ProductSellerDetailAdapter
@@ -39,7 +39,7 @@ class DetailSellerActivity : AppCompatActivity(R.layout.activity_detail_seller),
         adapter = ProductSellerDetailAdapter(this)
 
         val idSeller = intent.getIntExtra(KEY_ID_SELLER, -1)
-        distanceSeller = intent.getStringExtra(DISTANCE_SELLER)
+        distanceSeller = intent.getIntExtra(DISTANCE_SELLER, 0)
 
         val accessToken = viewModel.getAccessToken()
 
@@ -53,8 +53,8 @@ class DetailSellerActivity : AppCompatActivity(R.layout.activity_detail_seller),
                 putExtra(CheckoutSellerActivity.KEY_OWNER_ID, ownerId)
                 startActivity(this)
             }
-
         }
+
 
         setUpRecyclerProduct()
         observeDetailSeller()

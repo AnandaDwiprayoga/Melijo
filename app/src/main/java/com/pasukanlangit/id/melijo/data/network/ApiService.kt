@@ -51,6 +51,9 @@ interface ApiService {
     @GET("user/profile")
     suspend fun getProfileUser(@Header("Authorization") token: String) : Response<UserProfileResponse>
 
+    @GET("promo")
+    suspend fun getPromoForUser(@Header("Authorization") token: String, @Query("level") level: String ?= null) : Response<AllPromoResponse>
+
     @Multipart
     @POST("user/profile")
     suspend fun updateProfileUser(

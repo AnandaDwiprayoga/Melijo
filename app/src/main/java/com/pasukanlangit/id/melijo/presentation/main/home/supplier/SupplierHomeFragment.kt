@@ -16,8 +16,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class SupplierHomeFragment : Fragment(R.layout.fragment_home_supplier){
     private val binding: FragmentHomeSupplierBinding by viewBinding()
 
-    private val viewModel: MainViewModel by viewModels()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

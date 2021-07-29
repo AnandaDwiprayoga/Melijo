@@ -14,4 +14,6 @@ object MyUtils {
     fun hasPermissions(context: Context, permissions: Array<String>): Boolean = permissions.all {
         ActivityCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
     }
+
+    fun getRandomDistance() : Int = (50 until 550).random()
 }

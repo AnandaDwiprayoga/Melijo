@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.pasukanlangit.id.melijo.data.network.model.response.DataSeller
 import com.pasukanlangit.id.melijo.databinding.ItemListSellerBinding
 import com.pasukanlangit.id.melijo.presentation.main.home.seller.detial.DetailSellerActivity
+import com.pasukanlangit.id.melijo.utils.MyUtils
 import kotlin.random.Random
 
 class SellersAdapter : ListAdapter<DataSeller, SellersAdapter.MyViewHolder>(DIFF_CALLBACK) {
@@ -25,7 +26,7 @@ class SellersAdapter : ListAdapter<DataSeller, SellersAdapter.MyViewHolder>(DIFF
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentSeller = getItem(position)
         with(holder.binding){
-            val dummyDistance = Random.nextDouble(5.0, 400.4557).roundTo2Digits()
+            val dummyDistance = MyUtils.getRandomDistance()
 
             Glide.with(this.root)
                 .load(currentSeller.photo)
@@ -48,9 +49,9 @@ class SellersAdapter : ListAdapter<DataSeller, SellersAdapter.MyViewHolder>(DIFF
         }
     }
 
-    private fun Double.roundTo2Digits() : String {
-        return String.format("%.3f", this)
-    }
+//    private fun Double.roundTo2Digits() : String {
+//        return String.format("%.3f", this)
+//    }
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DataSeller>() {

@@ -1,5 +1,6 @@
 package com.pasukanlangit.id.melijo.presentation.main.home.supplier.product
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -11,10 +12,13 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.pasukanlangit.id.melijo.R
 import com.pasukanlangit.id.melijo.data.network.model.response.ProductItem
 import com.pasukanlangit.id.melijo.databinding.FragmentSupProductWrapperBinding
+import com.pasukanlangit.id.melijo.presentation.main.checkout.seller.CheckoutSellerActivity
+import com.pasukanlangit.id.melijo.presentation.main.home.seller.detial.DetailSellerActivity
 import com.pasukanlangit.id.melijo.presentation.main.home.seller.detial.ProductSellerDetailAdapter
 import com.pasukanlangit.id.melijo.presentation.main.home.supplier.product.ProductSupplierViewModel.Companion.OWNER_ID_SUPPLIER
 import com.pasukanlangit.id.melijo.utils.GridSpacingItemDecoration
 import com.pasukanlangit.id.melijo.utils.MyResponse
+import com.pasukanlangit.id.melijo.utils.MyUtils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,6 +40,14 @@ class SupProductWrapperFragment : Fragment(R.layout.fragment_sup_product_wrapper
                 is MyResponse.Success -> { }
                 is MyResponse.Error -> { Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show() }
                 else -> {}
+            }
+        }
+
+        binding.wrapperCartFloating.setOnClickListener {
+            Intent(requireContext(), CheckoutSellerActivity::class.java).apply {
+                putExtra(DetailSellerActivity.DISTANCE_SELLER, MyUtils.getRandomDistance() )
+                putExtra(CheckoutSellerActivity.KEY_OWNER_ID, OWNER_ID_SUPPLIER)
+                startActivity(this)
             }
         }
 

@@ -2,13 +2,16 @@
 
 package com.pasukanlangit.id.melijo.data
 
+import androidx.room.withTransaction
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.pasukanlangit.id.melijo.data.network.ApiService
 import com.pasukanlangit.id.melijo.data.network.model.request.LoginRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.RegisterRequest
 import com.pasukanlangit.id.melijo.data.network.model.response.*
+import com.pasukanlangit.id.melijo.data.room.MelijoDatabase
 import com.pasukanlangit.id.melijo.data.room.ProductDao
+import com.pasukanlangit.id.melijo.data.room.PromoDao
 import com.pasukanlangit.id.melijo.data.sharedpref.AuthSharedPref
 import com.pasukanlangit.id.melijo.presentation.auth.UserType
 import com.pasukanlangit.id.melijo.utils.MyNetwork
@@ -26,7 +29,9 @@ class MainRepository @Inject constructor(
     private val myNetwork: MyNetwork,
     private val apiService: ApiService,
     private val authSharedPref: AuthSharedPref,
-    private val productDao: ProductDao
+    private val database: MelijoDatabase,
+    private val productDao: ProductDao,
+    private val promoDao: PromoDao
 ) {
     fun checkKeyIsValid(key: String) = flow {
         if (myNetwork.isOnline()) {
@@ -303,6 +308,28 @@ class MainRepository @Inject constructor(
             }
         } as Flow<MyResponse<UserProfileResponse>>
 
+    fun getAllPromoForUser(accessToken: String, level: String?= null): Flow<MyResponse<AllPromoResponse>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+
+                try {
+                    val response = apiService.getPromoForUser(accessToken, level)
+
+                    if (response.isSuccessful) {
+                        emit(MyResponse.Success(response.body()))
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOut: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            } else {
+                emit(MyResponse.Error("Check your internet connection", null))
+            }
+        } as Flow<MyResponse<AllPromoResponse>>
+
     fun updateProfileUser(
         token: String,
         name: RequestBody,
@@ -349,4 +376,13 @@ class MainRepository @Inject constructor(
     suspend fun insertProduct(productItem: ProductItem) = productDao.insertProduct(productItem)
     suspend fun updateProduct(productItem: ProductItem) = productDao.updateProduct(productItem)
     suspend fun deleteProduct(productItem: ProductItem) = productDao.deleteProduct(productItem)
+    suspend fun deletePromo() = promoDao.deleteAllPromo()
+    suspend fun insertPromo(promoResultItem: PromoResultItem){
+        database.withTransaction {
+            promoDao.deleteAllPromo()
+            promoDao.insertPromo(promoResultItem)
+        }
+    }
+    fun getPromoSelected() = promoDao.getMainPromo()
+
 }
