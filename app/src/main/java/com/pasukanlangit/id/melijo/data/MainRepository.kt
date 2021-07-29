@@ -5,6 +5,7 @@ package com.pasukanlangit.id.melijo.data
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.pasukanlangit.id.melijo.data.network.ApiService
+import com.pasukanlangit.id.melijo.data.network.model.request.CategoryRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.LoginRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.RegisterRequest
 import com.pasukanlangit.id.melijo.data.network.model.response.*
@@ -329,11 +330,29 @@ class MainRepository @Inject constructor(
                         val message = getErrorMessage(response.errorBody()?.string())
                         emit(MyResponse.Error(message, null))
                     }
-                } catch (timeOute: SocketTimeoutException) {
+                } catch (timeOut: SocketTimeoutException) {
                     emit(MyResponse.Error("Terjadi Kesalahan", null))
                 }
             }
         } as Flow<MyResponse<CategoryResponse>>
+
+    fun createCategory(accessToken: String, mCategoryRequest: CategoryRequest) = flow {
+        if (myNetwork.isOnline()) {
+            emit(MyResponse.Loading(null))
+            try {
+                val response = apiService.createCategoryProvider(accessToken, mCategoryRequest)
+
+                if (response.isSuccessful) {
+                    emit(MyResponse.Success(response.body()))
+                } else {
+                    val message = getErrorMessage(response.errorBody()?.string())
+                    emit(MyResponse.Error(message, null))
+                }
+            } catch (timeOut: SocketTimeoutException) {
+                emit(MyResponse.Error("Terjadi Kesalahan", null))
+            }
+        }
+    }
 
     fun getProductSaved() = productDao.getAllProductFromCart()
 

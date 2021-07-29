@@ -1,10 +1,8 @@
 package com.pasukanlangit.id.melijo.presentation.mainprovider.home.category
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.pasukanlangit.id.melijo.data.MainRepository
+import com.pasukanlangit.id.melijo.data.network.model.request.CategoryRequest
 import com.pasukanlangit.id.melijo.data.network.model.response.CategoryResponse
 import com.pasukanlangit.id.melijo.utils.MyResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,4 +30,6 @@ class CategoryProviderViewModel @Inject constructor(
             }
         }
     }
+
+    fun createCategoryProvider(mCategoryRequest: CategoryRequest) = mainRepository.createCategory(accessToken, mCategoryRequest).asLiveData()
 }

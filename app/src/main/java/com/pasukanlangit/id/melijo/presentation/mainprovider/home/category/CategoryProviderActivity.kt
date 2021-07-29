@@ -1,5 +1,6 @@
 package com.pasukanlangit.id.melijo.presentation.mainprovider.home.category
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -29,11 +30,20 @@ class CategoryProviderActivity : AppCompatActivity(R.layout.activity_category_pr
         viewModel.categoryProvider.observe(this, { response ->
             binding.loading.isVisible = response is MyResponse.Loading
             when(response) {
-                is MyResponse.Success -> mAdapter.setCategoryProvider(response.data?.result)
+                is MyResponse.Success -> {
+                    response.data?.result?.let {
+                        mAdapter.setCategoryProvider(it)
+                        mAdapter.notifyDataSetChanged()
+                    }
+                    mAdapter.notifyDataSetChanged()
+                }
                 is  MyResponse.Error -> Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
                 else -> {}
             }
         })
+        binding.buttonAddCategory.setOnClickListener {
+            startActivity(Intent(this, AddUpdateCategoryActivity::class.java))
+        }
     }
 
     private fun setupCategory() {

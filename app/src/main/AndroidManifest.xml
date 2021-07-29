@@ -13,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Melijo">
+        <activity android:name=".presentation.mainprovider.home.category.AddUpdateCategoryActivity"></activity>
         <activity android:name=".presentation.mainprovider.home.category.CategoryProviderActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,10 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.mainprovider.home.product.ProductProviderActivity">
-
-        </activity>
-        <activity android:name=".presentation.mainprovider.MainProviderActivity"></activity>
+        <activity android:name=".presentation.mainprovider.home.product.ProductProviderActivity"></activity>
+        <activity android:name=".presentation.mainprovider.MainProviderActivity" />
         <activity android:name=".presentation.main.account.update.ChangeProfileUserActivity" />
         <activity android:name=".presentation.main.checkout.seller.CheckoutSellerActivity" />
         <activity android:name=".presentation.main.home.supplier.product.ProductByCategorySupActivity" />
