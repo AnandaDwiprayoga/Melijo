@@ -1,9 +1,6 @@
 package com.pasukanlangit.id.melijo.presentation.main.promo
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.pasukanlangit.id.melijo.data.MainRepository
 import com.pasukanlangit.id.melijo.data.network.model.response.AllPromoResponse
 import com.pasukanlangit.id.melijo.data.network.model.response.PromoResultItem
@@ -21,6 +18,8 @@ class AllPromoViewModel @Inject constructor(private val mainRepository: MainRepo
 
     private val accessToken = mainRepository.getAccessToken() ?: ""
 
+    val promoMain = mainRepository.getPromoSelected().asLiveData()
+
     init {
         getAllPromoAvailableForUser()
     }
@@ -30,6 +29,7 @@ class AllPromoViewModel @Inject constructor(private val mainRepository: MainRepo
             _promo.value = it
         }
     }
+
 
     fun insertPromoSelected(promoResultItem: PromoResultItem) = viewModelScope.launch {
         mainRepository.insertPromo(promoResultItem)

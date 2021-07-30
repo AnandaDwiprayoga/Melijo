@@ -1,6 +1,7 @@
 package com.pasukanlangit.id.melijo.data.network
 
 import com.pasukanlangit.id.melijo.data.network.model.request.LoginRequest
+import com.pasukanlangit.id.melijo.data.network.model.request.OrderRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.RegisterRequest
 import com.pasukanlangit.id.melijo.data.network.model.response.*
 import okhttp3.MultipartBody
@@ -53,6 +54,13 @@ interface ApiService {
 
     @GET("promo")
     suspend fun getPromoForUser(@Header("Authorization") token: String, @Query("level") level: String ?= null) : Response<AllPromoResponse>
+
+    @POST("transaction")
+    suspend fun createTransactionBuyer(@Header("Authorization") token: String, @Body orderRequest: OrderRequest) : Response<OrderResponse>
+
+    @PATCH("transaction/cancel/{trxId}")
+    suspend fun cancelTrxBuyer(@Header("Authorization") token: String, @Path("trxId") trxId: Int) : Response<MetaResponse>
+
 
     @Multipart
     @POST("user/profile")

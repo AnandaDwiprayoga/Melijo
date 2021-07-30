@@ -31,5 +31,7 @@ data class PromoResultItem(
 
 	@PrimaryKey
 	@field:SerializedName("id")
-	val id: Int
+	val id: Int,
+
+	var isMain: Boolean = false
 )

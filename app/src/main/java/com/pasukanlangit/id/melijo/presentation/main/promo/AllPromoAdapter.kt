@@ -2,6 +2,7 @@ package com.pasukanlangit.id.melijo.presentation.main.promo
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.pasukanlangit.id.melijo.data.network.model.response.PromoResultItem
 import com.pasukanlangit.id.melijo.databinding.ItemPromoListBinding
@@ -20,6 +21,7 @@ class AllPromoAdapter(private var diskons: List<PromoResultItem>, private val li
             tvTitle.text = "${diskon.name} (Rp ${diskon.discount})"
             tvDescription.text = diskon.description
 
+            labelSelected.isVisible = diskon.isMain
             this.root.setOnClickListener {
                 listener(diskon)
             }

@@ -28,6 +28,9 @@ class DetailSellerActivity : AppCompatActivity(R.layout.activity_detail_seller),
     private var distanceSeller : Int = 0
     private var ownerId: Int = 0
 
+    private var imageProducer : String ?= ""
+    private var nameProducer : String ?= ""
+
     private lateinit var adapter : ProductSellerDetailAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +54,8 @@ class DetailSellerActivity : AppCompatActivity(R.layout.activity_detail_seller),
             Intent(this, CheckoutSellerActivity::class.java).apply {
                 putExtra(DISTANCE_SELLER, distanceSeller)
                 putExtra(CheckoutSellerActivity.KEY_OWNER_ID, ownerId)
+                putExtra(CheckoutSellerActivity.KEY_NAME_PRODUCER, nameProducer)
+                putExtra(CheckoutSellerActivity.KEY_IMG_PRODUCER, imageProducer)
                 startActivity(this)
             }
         }
@@ -90,8 +95,11 @@ class DetailSellerActivity : AppCompatActivity(R.layout.activity_detail_seller),
         viewModel.detailSeller.observe(this){
             binding.loading.isVisible = it is MyResponse.Loading
             if(it is MyResponse.Success){
+
                 it.data?.result.let {  detailSellerResponse ->
                     ownerId = detailSellerResponse?.bio?.id ?: 0
+                    imageProducer = detailSellerResponse?.bio?.photo
+                    nameProducer = detailSellerResponse?.bio?.name
 
                     viewModel.collectProductSaved(ownerId)
 
@@ -110,10 +118,6 @@ class DetailSellerActivity : AppCompatActivity(R.layout.activity_detail_seller),
         }
     }
 
-    companion object {
-        const val KEY_ID_SELLER = "KEY_ID_SELLER"
-        const val DISTANCE_SELLER = "DISTANCE_SELLER"
-    }
 
     override fun onAddToCart(productItem: ProductItem) {
         viewModel.saveProductToCart(productItem.copy(ownerId = ownerId))
@@ -125,5 +129,10 @@ class DetailSellerActivity : AppCompatActivity(R.layout.activity_detail_seller),
 
     override fun deleteProductCart(productItem: ProductItem) {
         viewModel.deleteProductCart(productItem.copy(ownerId = ownerId))
+    }
+
+    companion object {
+        const val KEY_ID_SELLER = "KEY_ID_SELLER"
+        const val DISTANCE_SELLER = "DISTANCE_SELLER"
     }
 }

@@ -7,6 +7,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.pasukanlangit.id.melijo.data.network.ApiService
 import com.pasukanlangit.id.melijo.data.network.model.request.LoginRequest
+import com.pasukanlangit.id.melijo.data.network.model.request.OrderRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.RegisterRequest
 import com.pasukanlangit.id.melijo.data.network.model.response.*
 import com.pasukanlangit.id.melijo.data.room.MelijoDatabase
@@ -16,6 +17,7 @@ import com.pasukanlangit.id.melijo.data.sharedpref.AuthSharedPref
 import com.pasukanlangit.id.melijo.presentation.auth.UserType
 import com.pasukanlangit.id.melijo.utils.MyNetwork
 import com.pasukanlangit.id.melijo.utils.MyResponse
+import com.pasukanlangit.id.melijo.utils.SingleEvent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
@@ -329,6 +331,52 @@ class MainRepository @Inject constructor(
                 emit(MyResponse.Error("Check your internet connection", null))
             }
         } as Flow<MyResponse<AllPromoResponse>>
+
+    fun createTransactionForBuyer(accessToken: String, orderRequest: OrderRequest): Flow<MyResponse<SingleEvent<OrderResponse>>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+
+                try {
+                    val response = apiService.createTransactionBuyer(accessToken, orderRequest)
+
+                    if (response.isSuccessful) {
+                        response.body()?.let { body ->
+                            emit(MyResponse.Success(SingleEvent(body)))
+                        }
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOut: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            } else {
+                emit(MyResponse.Error("Check your internet connection", null))
+            }
+        } as Flow<MyResponse<SingleEvent<OrderResponse>>>
+
+    fun cancelTransaction(accessToken: String, trxId: Int): Flow<MyResponse<MetaResponse>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+
+                try {
+                    val response = apiService.cancelTrxBuyer(accessToken, trxId)
+
+                    if (response.isSuccessful) {
+                        emit(MyResponse.Success(response.body()))
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOut: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            } else {
+                emit(MyResponse.Error("Check your internet connection", null))
+            }
+        } as Flow<MyResponse<MetaResponse>>
 
     fun updateProfileUser(
         token: String,

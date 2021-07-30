@@ -56,4 +56,6 @@
     <string name="no_telp">No Telp.</string>
     <string name="ubah_profile">Ubah Profile</string>
     <string name="promo_not_availble">Promo tidak tersedia</string>
+    <string name="dipilih">dipilih</string>
+    <string name="batalkan_pesanan">Batalkan Pesanan</string>
 </resources>
