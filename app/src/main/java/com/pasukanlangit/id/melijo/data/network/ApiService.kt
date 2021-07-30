@@ -57,6 +57,12 @@ interface ApiService {
     @GET("producer/category")
     suspend fun getCategoryProvider(@Header("Authorization") token: String): Response<CategoryResponse>
 
+    @POST("producer/category/{category_id}")
+    suspend fun updateCategoryProvider(@Header("Authorization") token: String, @Path("category_id") category_id: Int, @Body mCategoryRequest: CategoryRequest): Response<MetaResponse>
+
+    @DELETE("producer/category/{category_id}")
+    suspend fun deleteCategoryProvider(@Header("Authorization") token: String, @Path("category_id") category_Id: Int): Response<MetaResponse>
+
     @POST("producer/product")
     suspend fun createProductsProvider(@Body createProductRequest: CreateProductRequest): Response<MetaResponse>
 

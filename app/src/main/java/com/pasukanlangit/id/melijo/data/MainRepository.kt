@@ -333,6 +333,8 @@ class MainRepository @Inject constructor(
                 } catch (timeOut: SocketTimeoutException) {
                     emit(MyResponse.Error("Terjadi Kesalahan", null))
                 }
+            } else {
+                emit(MyResponse.Error("Check yout internet connection", null))
             }
         } as Flow<MyResponse<CategoryResponse>>
 
@@ -351,6 +353,48 @@ class MainRepository @Inject constructor(
             } catch (timeOut: SocketTimeoutException) {
                 emit(MyResponse.Error("Terjadi Kesalahan", null))
             }
+        } else {
+            emit(MyResponse.Error("Check yout internet connection", null))
+        }
+    }
+
+    fun updateCategory(accessToken: String, categoryId: Int, mCategoryRequest: CategoryRequest) = flow {
+        if (myNetwork.isOnline()) {
+            emit(MyResponse.Loading(null))
+            try {
+                val response = apiService.updateCategoryProvider(accessToken, categoryId, mCategoryRequest)
+
+                if (response.isSuccessful) {
+                    emit(MyResponse.Success(response.body()))
+                } else {
+                    val message = getErrorMessage(response.errorBody()?.string())
+                    emit(MyResponse.Error(message, null))
+                }
+            } catch (timeOut: SocketTimeoutException) {
+                emit(MyResponse.Error("Terjadi Kesalahan", null))
+            }
+        } else {
+            emit(MyResponse.Error("Check yout internet connection", null))
+        }
+    }
+
+    fun deleteCategory(accessToken: String, categoryId: Int) = flow {
+        if (myNetwork.isOnline()) {
+            emit(MyResponse.Loading(null))
+            try {
+                val response = apiService.deleteCategoryProvider(accessToken, categoryId)
+
+                if (response.isSuccessful) {
+                    emit(MyResponse.Success(response.body()))
+                } else {
+                    val message = getErrorMessage(response.errorBody()?.string())
+                    emit(MyResponse.Error(message, null))
+                }
+            } catch (timeOut: SocketTimeoutException) {
+                emit(MyResponse.Error("Terjadi Kesalahan", null))
+            }
+        } else {
+            emit(MyResponse.Error("Check yout internet connection", null))
         }
     }
 

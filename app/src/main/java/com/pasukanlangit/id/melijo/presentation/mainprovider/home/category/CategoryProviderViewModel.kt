@@ -32,4 +32,8 @@ class CategoryProviderViewModel @Inject constructor(
     }
 
     fun createCategoryProvider(mCategoryRequest: CategoryRequest) = mainRepository.createCategory(accessToken, mCategoryRequest).asLiveData()
+
+    fun updateCategoryProvider(categoryId: Int, mCategoryRequest: CategoryRequest) = mainRepository.updateCategory(accessToken, categoryId, mCategoryRequest).asLiveData()
+
+    fun deleteCategoryProvider(categoryId: Int) = mainRepository.deleteCategory(accessToken, categoryId).asLiveData()
 }

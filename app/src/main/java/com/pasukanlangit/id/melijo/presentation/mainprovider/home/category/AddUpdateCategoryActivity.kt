@@ -8,6 +8,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.razir.progressbutton.hideProgress
 import com.pasukanlangit.id.melijo.R
 import com.pasukanlangit.id.melijo.data.network.model.request.CategoryRequest
+import com.pasukanlangit.id.melijo.data.network.model.response.CategoryResultItem
 import com.pasukanlangit.id.melijo.databinding.ActivityAddUpdateCategoryBinding
 import com.pasukanlangit.id.melijo.utils.MyResponse
 import com.pasukanlangit.id.melijo.utils.MyUtils
@@ -17,22 +18,35 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AddUpdateCategoryActivity : AppCompatActivity(R.layout.activity_add_update_category) {
 
+    companion object {
+        const val UPDATE_KEY = "update_key"
+    }
+
     private val binding: ActivityAddUpdateCategoryBinding by viewBinding()
     private val viewModel: CategoryProviderViewModel by viewModels()
+    private var categoryItem: CategoryResultItem ? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         MyUtils.setToolbarGreen(window, this)
 
+        categoryItem = intent.getParcelableExtra(UPDATE_KEY)
         with(binding) {
+            if (categoryItem != null) {
+                textTitle.text = getString(R.string.title_update_category)
+                edtNameCategory.setText(categoryItem?.name)
+            } else {
+                textTitle.text = getString(R.string.title_add_category)
+                edtNameCategory.setText("")
+            }
             buttonCancel.setOnClickListener{ finish() }
             backToCategory.setOnClickListener { finish() }
-            buttonSave.setOnClickListener { createCategoryProcess() }
+            buttonSave.setOnClickListener { createOrUpdateCategoryProcess() }
         }
     }
 
-    private fun createCategoryProcess() {
+    private fun createOrUpdateCategoryProcess() {
         with(binding) {
             val name = edtNameCategory.text.toString().trim()
             if (name.isEmpty()) {
@@ -41,26 +55,47 @@ class AddUpdateCategoryActivity : AppCompatActivity(R.layout.activity_add_update
             }
 
             val mCategoryRequest = CategoryRequest(name)
-            createCategory(mCategoryRequest)
+            createOrUpdateCategory(mCategoryRequest)
         }
     }
 
-    private fun createCategory(mCategoryRequest: CategoryRequest) {
-        viewModel.createCategoryProvider(mCategoryRequest).observe(this, { response ->
-            when(response) {
-                is MyResponse.Loading -> binding.buttonSave.showLoading()
-                is MyResponse.Success -> {
-                    binding.buttonSave.hideProgress(getString(R.string.save))
-                    response.data?.meta?.let {
-                        Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                        finish()
+    private fun createOrUpdateCategory(mCategoryRequest: CategoryRequest) {
+        if (categoryItem != null) {
+            categoryItem?.id?.let { id ->
+                viewModel.updateCategoryProvider(id, mCategoryRequest).observe(this, { response ->
+                    when(response) {
+                        is MyResponse.Loading -> binding.buttonSave.showLoading()
+                        is MyResponse.Success -> {
+                            binding.buttonSave.hideProgress(getString(R.string.save))
+                            response.data?.meta?.let {
+                                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                                finish()
+                            }
+                        }
+                        is MyResponse.Error -> {
+                            binding.buttonSave.hideProgress(getString(R.string.save))
+                            Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                })
+            }
+        } else {
+            viewModel.createCategoryProvider(mCategoryRequest).observe(this, { response ->
+                when(response) {
+                    is MyResponse.Loading -> binding.buttonSave.showLoading()
+                    is MyResponse.Success -> {
+                        binding.buttonSave.hideProgress(getString(R.string.save))
+                        response.data?.meta?.let {
+                            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                            finish()
+                        }
+                    }
+                    is MyResponse.Error -> {
+                        binding.buttonSave.hideProgress(getString(R.string.save))
+                        Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
                     }
                 }
-                is MyResponse.Error -> {
-                    binding.buttonSave.hideProgress(getString(R.string.save))
-                    Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
-                }
-            }
-        })
+            })
+        }
     }
 }
