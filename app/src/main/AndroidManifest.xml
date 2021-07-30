@@ -31,6 +31,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".presentation.mainprovider.home.category.AddUpdateCategoryActivity"></activity>
+        <activity android:name=".presentation.mainprovider.home.category.CategoryProviderActivity" />
+        <activity android:name=".presentation.mainprovider.home.product.ProductProviderActivity"></activity>
     </application>
 
 </manifest>

@@ -58,4 +58,14 @@
     <string name="promo_not_availble">Promo tidak tersedia</string>
     <string name="dipilih">dipilih</string>
     <string name="batalkan_pesanan">Batalkan Pesanan</string>
+    <string name="button_back">Kembali</string>
+    <string name="add">Tambah</string>
+    <string name="title_add_category">Tambah Kategory Barang</string>
+    <string name="title_update_category">Update Kategory Barang</string>
+    <string name="title_list_category">Daftar Kategori Barang</string>
+    <string name="title_add_product">Tambah Barang Jualan</string>
+    <string name="title_update_product">Update Barang Jualan</string>
+    <string name="title_list_product">Daftar Barang Jualan</string>
+    <string name="cancel">Batal</string>
+    <string name="save">Simpan</string>
 </resources>

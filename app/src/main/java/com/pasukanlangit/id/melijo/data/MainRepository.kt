@@ -6,6 +6,7 @@ import androidx.room.withTransaction
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.pasukanlangit.id.melijo.data.network.ApiService
+import com.pasukanlangit.id.melijo.data.network.model.request.CategoryRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.LoginRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.OrderRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.RegisterRequest
@@ -310,7 +311,10 @@ class MainRepository @Inject constructor(
             }
         } as Flow<MyResponse<UserProfileResponse>>
 
-    fun getAllPromoForUser(accessToken: String, level: String?= null): Flow<MyResponse<AllPromoResponse>> =
+    fun getAllPromoForUser(
+        accessToken: String,
+        level: String? = null
+    ): Flow<MyResponse<AllPromoResponse>> =
         flow {
             if (myNetwork.isOnline()) {
                 emit(MyResponse.Loading(null))
@@ -332,7 +336,31 @@ class MainRepository @Inject constructor(
             }
         } as Flow<MyResponse<AllPromoResponse>>
 
-    fun createTransactionForBuyer(accessToken: String, orderRequest: OrderRequest): Flow<MyResponse<SingleEvent<OrderResponse>>> =
+    fun getProductsProvider(accessToken: String): Flow<MyResponse<AllProductSupplierResponse>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+                try {
+                    val response = apiService.getProductsProvider(accessToken)
+
+                    if (response.isSuccessful) {
+                        emit(MyResponse.Success(response.body()))
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOut: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            } else {
+                emit(MyResponse.Error("Check yout internet connection", null))
+            }
+        } as Flow<MyResponse<AllProductSupplierResponse>>
+
+    fun createTransactionForBuyer(
+        accessToken: String,
+        orderRequest: OrderRequest
+    ): Flow<MyResponse<SingleEvent<OrderResponse>>> =
         flow {
             if (myNetwork.isOnline()) {
                 emit(MyResponse.Loading(null))
@@ -378,6 +406,43 @@ class MainRepository @Inject constructor(
             }
         } as Flow<MyResponse<MetaResponse>>
 
+    fun getCategoryProvider(accessToken: String): Flow<MyResponse<CategoryResponse>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+                try {
+                    val response = apiService.getCategoryProvider(accessToken)
+
+                    if (response.isSuccessful) {
+                        emit(MyResponse.Success(response.body()))
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOut: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            }
+        } as Flow<MyResponse<CategoryResponse>>
+
+    fun createCategory(accessToken: String, mCategoryRequest: CategoryRequest) = flow {
+        if (myNetwork.isOnline()) {
+            emit(MyResponse.Loading(null))
+            try {
+                val response = apiService.createCategoryProvider(accessToken, mCategoryRequest)
+
+                if (response.isSuccessful) {
+                    emit(MyResponse.Success(response.body()))
+                } else {
+                    val message = getErrorMessage(response.errorBody()?.string())
+                    emit(MyResponse.Error(message, null))
+                }
+            } catch (timeOut: SocketTimeoutException) {
+                emit(MyResponse.Error("Terjadi Kesalahan", null))
+            }
+        }
+    }
+
     fun updateProfileUser(
         token: String,
         name: RequestBody,
@@ -391,7 +456,14 @@ class MainRepository @Inject constructor(
                 emit(MyResponse.Loading(null))
 
                 try {
-                    val response = apiService.updateProfileUser(token, name, email, address, phoneNumber, image)
+                    val response = apiService.updateProfileUser(
+                        token,
+                        name,
+                        email,
+                        address,
+                        phoneNumber,
+                        image
+                    )
 
                     if (response.isSuccessful) {
                         emit(MyResponse.Success(response.body()))
@@ -406,7 +478,6 @@ class MainRepository @Inject constructor(
                 emit(MyResponse.Error("Check your internet connection", null))
             }
         } as Flow<MyResponse<MetaResponse>>
-
 
     fun getProductSaved(ownerId: Int) = productDao.getAllProductFromCart(ownerId)
 
@@ -425,12 +496,13 @@ class MainRepository @Inject constructor(
     suspend fun updateProduct(productItem: ProductItem) = productDao.updateProduct(productItem)
     suspend fun deleteProduct(productItem: ProductItem) = productDao.deleteProduct(productItem)
     suspend fun deletePromo() = promoDao.deleteAllPromo()
-    suspend fun insertPromo(promoResultItem: PromoResultItem){
+    suspend fun insertPromo(promoResultItem: PromoResultItem) {
         database.withTransaction {
             promoDao.deleteAllPromo()
             promoDao.insertPromo(promoResultItem)
         }
     }
+
     fun getPromoSelected() = promoDao.getMainPromo()
 
 }

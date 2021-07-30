@@ -1,5 +1,7 @@
 package com.pasukanlangit.id.melijo.data.network
 
+import com.pasukanlangit.id.melijo.data.network.model.request.CategoryRequest
+import com.pasukanlangit.id.melijo.data.network.model.request.CreateProductRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.LoginRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.OrderRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.RegisterRequest
@@ -73,5 +75,15 @@ interface ApiService {
         @Part image : MultipartBody.Part?
     ) : Response<MetaResponse>
 
+    @POST("producer/category")
+    suspend fun createCategoryProvider(@Header("Authorization") token: String, @Body mCategoryRequest: CategoryRequest): Response<MetaResponse>
 
+    @GET("producer/category")
+    suspend fun getCategoryProvider(@Header("Authorization") token: String): Response<CategoryResponse>
+
+    @POST("producer/product")
+    suspend fun createProductsProvider(@Body createProductRequest: CreateProductRequest): Response<MetaResponse>
+
+    @GET("producer/product")
+    suspend fun getProductsProvider(@Header("Authorization") token: String): Response<AllProductSupplierResponse>
 }
