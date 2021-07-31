@@ -4,8 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.pasukanlangit.id.melijo.R
 import com.pasukanlangit.id.melijo.data.network.model.response.ProductItem
 import com.pasukanlangit.id.melijo.databinding.ItemListProductBinding
+import java.lang.NumberFormatException
+import java.text.DecimalFormat
 
 class ProductProviderAdapter: RecyclerView.Adapter<ProductProviderAdapter.ProductsViewHolder>() {
 
@@ -35,8 +38,18 @@ class ProductProviderAdapter: RecyclerView.Adapter<ProductProviderAdapter.Produc
                     .load(productItem.picture)
                     .into(imgProduct)
                 textNameProduct.text = productItem.name
-                textPrice.text = productItem.price.toString()
+                textPrice.text = this.root.resources.getString(R.string.format_price, formatPrice(productItem.price))
             }
+        }
+
+        private fun formatPrice(price: Int): String {
+            try {
+                val formatter = DecimalFormat("#,###,###")
+                return formatter.format(price)
+            } catch (e: NumberFormatException) {
+                e.printStackTrace()
+            }
+            return ""
         }
     }
 }

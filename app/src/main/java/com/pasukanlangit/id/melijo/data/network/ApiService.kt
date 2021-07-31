@@ -1,7 +1,7 @@
 package com.pasukanlangit.id.melijo.data.network
 
 import com.pasukanlangit.id.melijo.data.network.model.request.CategoryRequest
-import com.pasukanlangit.id.melijo.data.network.model.request.CreateProductRequest
+import com.pasukanlangit.id.melijo.data.network.model.request.ProductRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.LoginRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.RegisterRequest
 import com.pasukanlangit.id.melijo.data.network.model.response.*
@@ -64,7 +64,7 @@ interface ApiService {
     suspend fun deleteCategoryProvider(@Header("Authorization") token: String, @Path("category_id") category_Id: Int): Response<MetaResponse>
 
     @POST("producer/product")
-    suspend fun createProductsProvider(@Body createProductRequest: CreateProductRequest): Response<MetaResponse>
+    suspend fun createProductsProvider(@Header("Authorization")token: String, @Body createProductRequest: ProductRequest): Response<MetaResponse>
 
     @GET("producer/product")
     suspend fun getProductsProvider(@Header("Authorization") token: String): Response<AllProductSupplierResponse>

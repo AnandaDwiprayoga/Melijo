@@ -1,5 +1,6 @@
 package com.pasukanlangit.id.melijo.presentation.mainprovider.home.product
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -29,11 +30,18 @@ class ProductProviderActivity : AppCompatActivity(R.layout.activity_product_prov
         viewModel.productProvider.observe(this, { response ->
             binding.loading.isVisible = response is MyResponse.Loading
             when(response) {
-                is MyResponse.Success -> adapter.setProductProvider(response.data?.result)
+                is MyResponse.Success -> {
+                    response.data?.result?.let { data ->
+                        adapter.setProductProvider(data)
+                        adapter.notifyDataSetChanged()
+                    }
+                    adapter.notifyDataSetChanged()
+                }
                 is MyResponse.Error -> Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
                 else -> {}
             }
         })
+        binding.buttonAddProduct.setOnClickListener { startActivity(Intent(this, AddUpdateProductActivity::class.java)) }
     }
 
     private fun setupProducts() {

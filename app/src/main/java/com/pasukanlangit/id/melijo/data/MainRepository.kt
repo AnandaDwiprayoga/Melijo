@@ -7,6 +7,7 @@ import com.google.gson.JsonSyntaxException
 import com.pasukanlangit.id.melijo.data.network.ApiService
 import com.pasukanlangit.id.melijo.data.network.model.request.CategoryRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.LoginRequest
+import com.pasukanlangit.id.melijo.data.network.model.request.ProductRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.RegisterRequest
 import com.pasukanlangit.id.melijo.data.network.model.response.*
 import com.pasukanlangit.id.melijo.data.room.ProductDao
@@ -296,27 +297,6 @@ class MainRepository @Inject constructor(
             }
         } as Flow<MyResponse<UserProfileResponse>>
 
-    fun getProductsProvider(accessToken: String): Flow<MyResponse<AllProductSupplierResponse>> =
-        flow {
-            if (myNetwork.isOnline()) {
-                emit(MyResponse.Loading(null))
-                try {
-                    val response = apiService.getProductsProvider(accessToken)
-
-                    if (response.isSuccessful) {
-                        emit(MyResponse.Success(response.body()))
-                    } else {
-                        val message = getErrorMessage(response.errorBody()?.string())
-                        emit(MyResponse.Error(message, null))
-                    }
-                } catch (timeOut: SocketTimeoutException) {
-                    emit(MyResponse.Error("Terjadi Kesalahan", null))
-                }
-            } else {
-                emit(MyResponse.Error("Check yout internet connection", null))
-            }
-        } as Flow<MyResponse<AllProductSupplierResponse>>
-
     fun getCategoryProvider(accessToken: String): Flow<MyResponse<CategoryResponse>> =
         flow {
             if (myNetwork.isOnline()) {
@@ -395,6 +375,47 @@ class MainRepository @Inject constructor(
             }
         } else {
             emit(MyResponse.Error("Check yout internet connection", null))
+        }
+    }
+
+    fun getProductsProvider(accessToken: String): Flow<MyResponse<AllProductSupplierResponse>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+                try {
+                    val response = apiService.getProductsProvider(accessToken)
+
+                    if (response.isSuccessful) {
+                        emit(MyResponse.Success(response.body()))
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOut: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            } else {
+                emit(MyResponse.Error("Check your internet connection", null))
+            }
+        } as Flow<MyResponse<AllProductSupplierResponse>>
+
+    fun createProductProvider(accessToken: String, mProductRequest: ProductRequest) = flow {
+        if (myNetwork.isOnline()) {
+            emit(MyResponse.Loading(null))
+            try {
+                val response = apiService.createProductsProvider(accessToken, mProductRequest)
+
+                if (response.isSuccessful) {
+                    emit(MyResponse.Success(response.body()))
+                } else {
+                    val message = getErrorMessage(response.errorBody()?.string())
+                    emit(MyResponse.Error(message, null))
+                }
+            } catch (timeOut: SocketTimeoutException) {
+                emit(MyResponse.Error("Terjadi Kesalahan", null))
+            }
+        } else {
+            emit(MyResponse.Error("Check your internet connection", null))
         }
     }
 
