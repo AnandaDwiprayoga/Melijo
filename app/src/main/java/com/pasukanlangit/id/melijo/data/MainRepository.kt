@@ -7,7 +7,6 @@ import com.google.gson.JsonSyntaxException
 import com.pasukanlangit.id.melijo.data.network.ApiService
 import com.pasukanlangit.id.melijo.data.network.model.request.CategoryRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.LoginRequest
-import com.pasukanlangit.id.melijo.data.network.model.request.ProductRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.RegisterRequest
 import com.pasukanlangit.id.melijo.data.network.model.response.*
 import com.pasukanlangit.id.melijo.data.room.ProductDao
@@ -17,6 +16,8 @@ import com.pasukanlangit.id.melijo.utils.MyNetwork
 import com.pasukanlangit.id.melijo.utils.MyResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import java.net.SocketTimeoutException
 import javax.inject.Inject
@@ -399,11 +400,29 @@ class MainRepository @Inject constructor(
             }
         } as Flow<MyResponse<AllProductSupplierResponse>>
 
-    fun createProductProvider(accessToken: String, mProductRequest: ProductRequest) = flow {
+    fun createProductProvider(
+        accessToken: String,
+        categoryId: RequestBody,
+        name: RequestBody,
+        stock: RequestBody,
+        price: RequestBody,
+        promo: RequestBody,
+        description: RequestBody?,
+        picture: MultipartBody.Part?
+    ) = flow {
         if (myNetwork.isOnline()) {
             emit(MyResponse.Loading(null))
             try {
-                val response = apiService.createProductsProvider(accessToken, mProductRequest)
+                val response = apiService.createProductsProvider(
+                    accessToken,
+                    categoryId,
+                    name,
+                    stock,
+                    price,
+                    promo,
+                    description,
+                    picture
+                )
 
                 if (response.isSuccessful) {
                     emit(MyResponse.Success(response.body()))
@@ -416,6 +435,65 @@ class MainRepository @Inject constructor(
             }
         } else {
             emit(MyResponse.Error("Check your internet connection", null))
+        }
+    }
+
+    fun updateProductProvider(
+        accessToken: String,
+        productId: Int,
+        categoryId: RequestBody,
+        name: RequestBody,
+        stock: RequestBody,
+        price: RequestBody,
+        promo: RequestBody,
+        description: RequestBody?,
+        picture: MultipartBody.Part?
+    ) = flow {
+        if (myNetwork.isOnline()) {
+            emit(MyResponse.Loading(null))
+            try {
+                val response = apiService.updateProductProvider(
+                    accessToken,
+                    productId,
+                    categoryId,
+                    name,
+                    stock,
+                    price,
+                    promo,
+                    description,
+                    picture
+                )
+
+                if (response.isSuccessful) {
+                    emit(MyResponse.Success(response.body()))
+                } else {
+                    val message = getErrorMessage(response.errorBody()?.string())
+                    emit(MyResponse.Error(message, null))
+                }
+            } catch (timeOut: SocketTimeoutException) {
+                emit(MyResponse.Error("Terjadi Kesalahan", null))
+            }
+        } else {
+            emit(MyResponse.Error("Check your internet connection", null))
+        }
+    }
+
+    fun deleteProductProvider(accessToken: String, productId: Int) = flow {
+        if (myNetwork.isOnline()) {
+            try {
+                val response = apiService.deleteProductProvider(accessToken, productId)
+
+                if (response.isSuccessful) {
+                    emit(MyResponse.Success(response.body()))
+                } else {
+                    val message = getErrorMessage(response.errorBody()?.string())
+                    emit(MyResponse.Error(message, null))
+                }
+            } catch (timeOut: SocketTimeoutException) {
+                emit(MyResponse.Error("Terjadi Kesalahan", null))
+            }
+        } else {
+            emit(MyResponse.Error("Check yout internet connection", null))
         }
     }
 

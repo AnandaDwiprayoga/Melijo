@@ -1,10 +1,11 @@
 package com.pasukanlangit.id.melijo.data.network
 
 import com.pasukanlangit.id.melijo.data.network.model.request.CategoryRequest
-import com.pasukanlangit.id.melijo.data.network.model.request.ProductRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.LoginRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.RegisterRequest
 import com.pasukanlangit.id.melijo.data.network.model.response.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -63,9 +64,36 @@ interface ApiService {
     @DELETE("producer/category/{category_id}")
     suspend fun deleteCategoryProvider(@Header("Authorization") token: String, @Path("category_id") category_Id: Int): Response<MetaResponse>
 
+    @Multipart
     @POST("producer/product")
-    suspend fun createProductsProvider(@Header("Authorization")token: String, @Body createProductRequest: ProductRequest): Response<MetaResponse>
+    suspend fun createProductsProvider(
+        @Header("Authorization") token: String,
+        @Part("category_id") category_Id: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part("stock") stock: RequestBody,
+        @Part("price") price: RequestBody,
+        @Part("promo") discount: RequestBody,
+        @Part("description") description: RequestBody?,
+        @Part picture: MultipartBody.Part?
+    ): Response<MetaResponse>
 
     @GET("producer/product")
     suspend fun getProductsProvider(@Header("Authorization") token: String): Response<AllProductSupplierResponse>
+
+    @Multipart
+    @POST("producer/product/{product_id}")
+    suspend fun updateProductProvider(
+        @Header("Authorization")token: String,
+        @Path("product_id") product_id: Int,
+        @Part("category_id") category_Id: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part("stock") stock: RequestBody,
+        @Part("price") price: RequestBody,
+        @Part("promo") discount: RequestBody,
+        @Part("description") description: RequestBody?,
+        @Part photo: MultipartBody.Part?
+    ): Response<MetaResponse>
+
+    @DELETE("producer/product/{product_id}")
+    suspend fun deleteProductProvider(@Header("Authorization") token: String, @Path("product_id") product_id: Int): Response<MetaResponse>
 }

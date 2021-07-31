@@ -1,8 +1,10 @@
 package com.pasukanlangit.id.melijo.data.network.model.response
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class DetailSellerResponse(
 
@@ -22,11 +24,15 @@ data class DetailSellerResult(
 	val bio: DataSeller
 )
 
+@Parcelize
 @Entity(tableName = "product")
 data class ProductItem(
 
 	@field:SerializedName("promo")
 	val promo: String?,
+
+	@field:SerializedName("category_id")
+	val categoryId: Int,
 
 	@field:SerializedName("updated_at")
 	val updatedAt: String,
@@ -36,6 +42,9 @@ data class ProductItem(
 
 	@field:SerializedName("name")
 	val name: String,
+
+	@field:SerializedName("description")
+	val description: String?,
 
 	@PrimaryKey
 	@field:SerializedName("id")
@@ -48,6 +57,6 @@ data class ProductItem(
 	val picture: String,
 
 	var qty : Int = 0
-)
+): Parcelable
 
 
