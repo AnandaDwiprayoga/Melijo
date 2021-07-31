@@ -425,6 +425,25 @@ class MainRepository @Inject constructor(
             }
         } as Flow<MyResponse<CategoryResponse>>
 
+    fun getTransactionForBuyer(accessToken: String): Flow<MyResponse<OrderBuyerResponse>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+                try {
+                    val response = apiService.getTransactionForBuyer(accessToken)
+
+                    if (response.isSuccessful) {
+                        emit(MyResponse.Success(response.body()))
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOut: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            }
+        } as Flow<MyResponse<OrderBuyerResponse>>
+
     fun createCategory(accessToken: String, mCategoryRequest: CategoryRequest) = flow {
         if (myNetwork.isOnline()) {
             emit(MyResponse.Loading(null))

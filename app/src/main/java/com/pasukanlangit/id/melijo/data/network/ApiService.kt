@@ -54,6 +54,9 @@ interface ApiService {
     @GET("user/profile")
     suspend fun getProfileUser(@Header("Authorization") token: String) : Response<UserProfileResponse>
 
+    @GET("transaction")
+    suspend fun getTransactionForBuyer(@Header("Authorization") token: String) : Response<OrderBuyerResponse>
+
     @GET("promo")
     suspend fun getPromoForUser(@Header("Authorization") token: String, @Query("level") level: String ?= null) : Response<AllPromoResponse>
 
