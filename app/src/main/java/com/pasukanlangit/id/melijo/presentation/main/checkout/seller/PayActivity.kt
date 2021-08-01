@@ -75,7 +75,8 @@ class PayActivity : AppCompatActivity(R.layout.activity_pay) {
         nameProducer: String?
     ) {
         with(binding){
-            Glide.with(this@PayActivity)
+            if(imgProducer == null) ivProducer.setImageResource(R.drawable.icon_supplier)
+            else  Glide.with(this@PayActivity)
                 .load(imgProducer)
                 .circleCrop()
                 .into(ivProducer)
@@ -87,7 +88,7 @@ class PayActivity : AppCompatActivity(R.layout.activity_pay) {
             }
 
             tvPrice.text = "Rp $priceProduct"
-            tvNameSeller.text = nameProducer
+            tvNameSeller.text = nameProducer ?: "Pesanan diserahkan ke supplier"
             tvPricePromo.text = promoPrice
             tvPriceOngkir.text = shipmentPrice
             tvPriceTot.text = "Rp ${trxData?.totalPay}"

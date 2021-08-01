@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
@@ -16,6 +17,7 @@ import com.pasukanlangit.id.melijo.data.network.model.request.OrderRequest
 import com.pasukanlangit.id.melijo.data.network.model.response.ProductItem
 import com.pasukanlangit.id.melijo.databinding.ActivityCheckoutSellerBinding
 import com.pasukanlangit.id.melijo.presentation.main.home.seller.detial.DetailSellerActivity
+import com.pasukanlangit.id.melijo.presentation.main.home.supplier.product.ProductSupplierViewModel.Companion.OWNER_ID_SUPPLIER
 import com.pasukanlangit.id.melijo.presentation.main.promo.AllPromoActivity
 import com.pasukanlangit.id.melijo.utils.MyResponse
 import com.pasukanlangit.id.melijo.utils.MyUtils
@@ -60,6 +62,9 @@ class CheckoutSellerActivity : AppCompatActivity(R.layout.activity_checkout_sell
 
         mAdapter = ProductCheckoutAdapter(emptyList(), this)
         val ownerId = intent.getIntExtra(KEY_OWNER_ID, -1)
+
+        binding.ivBuyer.isVisible = ownerId != OWNER_ID_SUPPLIER
+        binding.tvNameBuyer.isVisible = ownerId != OWNER_ID_SUPPLIER
 
         imageProducer = intent.getStringExtra(KEY_IMG_PRODUCER)
         nameProducer = intent.getStringExtra(KEY_NAME_PRODUCER)
