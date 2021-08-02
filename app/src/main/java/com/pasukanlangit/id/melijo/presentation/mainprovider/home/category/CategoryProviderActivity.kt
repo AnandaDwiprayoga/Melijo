@@ -80,7 +80,7 @@ class CategoryProviderActivity : AppCompatActivity(R.layout.activity_category_pr
                 is  MyResponse.Success -> {
                     response.data?.meta?.let {
                         Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                        setupCategory()
+                        viewModel.getCategoryProvider()
                     }
                 }
                 is MyResponse.Error -> Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()

@@ -86,7 +86,7 @@ class ProductProviderActivity : AppCompatActivity(R.layout.activity_product_prov
                 is MyResponse.Success -> {
                     response.data?.meta?.let {
                         Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                        setupProducts()
+                        viewModel.getAllProductsProvider()
                     }
                 }
                 is MyResponse.Error -> Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
