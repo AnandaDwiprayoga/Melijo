@@ -1,7 +1,6 @@
 package com.pasukanlangit.id.melijo.data.network
 
 import com.pasukanlangit.id.melijo.data.network.model.request.CategoryRequest
-import com.pasukanlangit.id.melijo.data.network.model.request.CreateProductRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.LoginRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.OrderRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.RegisterRequest
@@ -84,9 +83,45 @@ interface ApiService {
     @GET("producer/category")
     suspend fun getCategoryProvider(@Header("Authorization") token: String): Response<CategoryResponse>
 
+    @POST("producer/category/{category_id}")
+    suspend fun updateCategoryProvider(@Header("Authorization") token: String, @Path("category_id") category_id: Int, @Body mCategoryRequest: CategoryRequest): Response<MetaResponse>
+
+    @DELETE("producer/category/{category_id}")
+    suspend fun deleteCategoryProvider(@Header("Authorization") token: String, @Path("category_id") category_Id: Int): Response<MetaResponse>
+
+    @Multipart
     @POST("producer/product")
-    suspend fun createProductsProvider(@Body createProductRequest: CreateProductRequest): Response<MetaResponse>
+    suspend fun createProductsProvider(
+        @Header("Authorization") token: String,
+        @Part("category_id") category_Id: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part("stock") stock: RequestBody,
+        @Part("price") price: RequestBody,
+        @Part("promo") discount: RequestBody,
+        @Part("description") description: RequestBody?,
+        @Part picture: MultipartBody.Part?
+    ): Response<MetaResponse>
 
     @GET("producer/product")
     suspend fun getProductsProvider(@Header("Authorization") token: String): Response<AllProductSupplierResponse>
+
+    @GET("producer/profile")
+    suspend fun getProfileProducer(@Header("Authorization") token: String): Response<ProfilProducerResponse>
+
+    @Multipart
+    @POST("producer/product/{product_id}")
+    suspend fun updateProductProvider(
+        @Header("Authorization")token: String,
+        @Path("product_id") product_id: Int,
+        @Part("category_id") category_Id: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part("stock") stock: RequestBody,
+        @Part("price") price: RequestBody,
+        @Part("promo") discount: RequestBody,
+        @Part("description") description: RequestBody?,
+        @Part photo: MultipartBody.Part?
+    ): Response<MetaResponse>
+
+    @DELETE("producer/product/{product_id}")
+    suspend fun deleteProductProvider(@Header("Authorization") token: String, @Path("product_id") product_id: Int): Response<MetaResponse>
 }

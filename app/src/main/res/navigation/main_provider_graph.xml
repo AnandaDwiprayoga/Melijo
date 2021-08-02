@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_provider_graph"
-    app:startDestination="@id/homeProviderFragment">
+    app:startDestination="@id/homeBaseSupplierFragment">
 
     <fragment
-        android:id="@+id/homeProviderFragment"
-        android:name="com.pasukanlangit.id.melijo.presentation.mainprovider.home.HomeProviderFragment"
+        android:id="@+id/homeBaseSellerFragment"
+        android:name="com.pasukanlangit.id.melijo.presentation.mainprovider.home.HomeBaseSellerFragment"
         android:label="fragment_home_provider"
-        tools:layout="@layout/fragment_home_provider" />
+        tools:layout="@layout/fragment_home_base_seller" />
     <fragment
         android:id="@+id/accountProviderFragment"
         android:name="com.pasukanlangit.id.melijo.presentation.mainprovider.acount.AccountProviderFragment"
@@ -25,4 +25,9 @@
         android:name="com.pasukanlangit.id.melijo.presentation.mainprovider.order.OrderProviderFragment"
         android:label="fragment_order_provider"
         tools:layout="@layout/fragment_order_provider" />
+    <fragment
+        android:id="@+id/homeBaseSupplierFragment"
+        android:name="com.pasukanlangit.id.melijo.presentation.mainprovider.home.HomeBaseSupplierFragment"
+        android:label="fragment_home_base_supplier"
+        tools:layout="@layout/fragment_home_base_supplier" />
 </navigation>

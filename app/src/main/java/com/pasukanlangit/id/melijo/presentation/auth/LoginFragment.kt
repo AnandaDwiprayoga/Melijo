@@ -84,7 +84,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 is MyResponse.Success -> {
                     binding.btnLogin.hideProgress(getString(R.string.login))
                     it.data?.let { data ->
-
                         navigateToMainAndSetToken(data.result.accessToken, data.result.tokenLevel)
                     }
                 }

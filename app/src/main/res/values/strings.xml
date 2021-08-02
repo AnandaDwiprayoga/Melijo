@@ -66,7 +66,21 @@
     <string name="title_add_product">Tambah Barang Jualan</string>
     <string name="title_update_product">Update Barang Jualan</string>
     <string name="title_list_product">Daftar Barang Jualan</string>
+    <string name="format_price">Rp. %s</string>
     <string name="cancel">Batal</string>
     <string name="save">Simpan</string>
     <string name="tidak_ada_pesan">Tidak ada pesan</string>
+    <string name="text_image_product">Gambar Produk</string>
+    <string name="text_choose_image">Pilih Gambar</string>
+    <string name="choose_category">Pilih Kategori Barang</string>
+    <string name="name_product">Nama Barang</string>
+    <string name="price_product">Harga (Rp.)</string>
+    <string name="stock_product">Stok</string>
+    <string name="discount_product">Diskon (Rp.)</string>
+    <string name="description_product">Deskripsi Produk</string>
+    <string name="cari_di_toko">Cari di toko</string>
+    <string name="kelola_akun">Kelola Akun</string>
+    <string name="kelola_produk">Kelola Produk</string>
+    <string name="kelola_kategori">Kelola Kategori</string>
+    <string name="kelola_promo">Kelola Promo</string>
 </resources>

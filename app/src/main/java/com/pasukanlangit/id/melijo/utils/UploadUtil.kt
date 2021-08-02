@@ -18,7 +18,6 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
 object UploadUtil {
-
     @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     fun getImageMultipart(mContext: Context, imageUri: Uri?, name : String = "picture"): MultipartBody.Part {
         val file = File(imageUri?.let { getFilePath(mContext, it) })

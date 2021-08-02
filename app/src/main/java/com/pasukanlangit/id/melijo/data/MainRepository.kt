@@ -353,9 +353,30 @@ class MainRepository @Inject constructor(
                     emit(MyResponse.Error("Terjadi Kesalahan", null))
                 }
             } else {
-                emit(MyResponse.Error("Check yout internet connection", null))
+                emit(MyResponse.Error("Check your internet connection", null))
             }
         } as Flow<MyResponse<AllProductSupplierResponse>>
+
+    fun getCategoryProvider(accessToken: String): Flow<MyResponse<CategoryResponse>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+                try {
+                    val response = apiService.getCategoryProvider(accessToken)
+
+                    if (response.isSuccessful) {
+                        emit(MyResponse.Success(response.body()))
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOut: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            } else {
+                emit(MyResponse.Error("Check yout internet connection", null))
+            }
+        } as Flow<MyResponse<CategoryResponse>>
 
     fun createTransactionForBuyer(
         accessToken: String,
@@ -406,24 +427,65 @@ class MainRepository @Inject constructor(
             }
         } as Flow<MyResponse<MetaResponse>>
 
-    fun getCategoryProvider(accessToken: String): Flow<MyResponse<CategoryResponse>> =
-        flow {
-            if (myNetwork.isOnline()) {
-                emit(MyResponse.Loading(null))
-                try {
-                    val response = apiService.getCategoryProvider(accessToken)
+    fun createCategory(accessToken: String, mCategoryRequest: CategoryRequest) = flow {
+        if (myNetwork.isOnline()) {
+            emit(MyResponse.Loading(null))
+            try {
+                val response = apiService.createCategoryProvider(accessToken, mCategoryRequest)
 
-                    if (response.isSuccessful) {
-                        emit(MyResponse.Success(response.body()))
-                    } else {
-                        val message = getErrorMessage(response.errorBody()?.string())
-                        emit(MyResponse.Error(message, null))
-                    }
-                } catch (timeOut: SocketTimeoutException) {
-                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                if (response.isSuccessful) {
+                    emit(MyResponse.Success(response.body()))
+                } else {
+                    val message = getErrorMessage(response.errorBody()?.string())
+                    emit(MyResponse.Error(message, null))
                 }
+            } catch (timeOut: SocketTimeoutException) {
+                emit(MyResponse.Error("Terjadi Kesalahan", null))
             }
-        } as Flow<MyResponse<CategoryResponse>>
+        } else {
+            emit(MyResponse.Error("Check yout internet connection", null))
+        }
+    }
+
+    fun updateCategory(accessToken: String, categoryId: Int, mCategoryRequest: CategoryRequest) = flow {
+        if (myNetwork.isOnline()) {
+            emit(MyResponse.Loading(null))
+            try {
+                val response = apiService.updateCategoryProvider(accessToken, categoryId, mCategoryRequest)
+
+                if (response.isSuccessful) {
+                    emit(MyResponse.Success(response.body()))
+                } else {
+                    val message = getErrorMessage(response.errorBody()?.string())
+                    emit(MyResponse.Error(message, null))
+                }
+            } catch (timeOut: SocketTimeoutException) {
+                emit(MyResponse.Error("Terjadi Kesalahan", null))
+            }
+        } else {
+            emit(MyResponse.Error("Check yout internet connection", null))
+        }
+    }
+
+    fun deleteCategory(accessToken: String, categoryId: Int) = flow {
+        if (myNetwork.isOnline()) {
+            emit(MyResponse.Loading(null))
+            try {
+                val response = apiService.deleteCategoryProvider(accessToken, categoryId)
+
+                if (response.isSuccessful) {
+                    emit(MyResponse.Success(response.body()))
+                } else {
+                    val message = getErrorMessage(response.errorBody()?.string())
+                    emit(MyResponse.Error(message, null))
+                }
+            } catch (timeOut: SocketTimeoutException) {
+                emit(MyResponse.Error("Terjadi Kesalahan", null))
+            }
+        } else {
+            emit(MyResponse.Error("Check yout internet connection", null))
+        }
+    }
 
     fun getTransactionForBuyer(accessToken: String): Flow<MyResponse<OrderBuyerResponse>> =
         flow {
@@ -444,11 +506,49 @@ class MainRepository @Inject constructor(
             }
         } as Flow<MyResponse<OrderBuyerResponse>>
 
-    fun createCategory(accessToken: String, mCategoryRequest: CategoryRequest) = flow {
+    fun getProfileProducer(accessToken: String): Flow<MyResponse<ProfilProducerResponse>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+                try {
+                    val response = apiService.getProfileProducer(accessToken)
+
+                    if (response.isSuccessful) {
+                        emit(MyResponse.Success(response.body()))
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOut: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            }
+        } as Flow<MyResponse<ProfilProducerResponse>>
+
+
+    fun createProductProvider(
+        accessToken: String,
+        categoryId: RequestBody,
+        name: RequestBody,
+        stock: RequestBody,
+        price: RequestBody,
+        promo: RequestBody,
+        description: RequestBody?,
+        picture: MultipartBody.Part?
+    ) = flow {
         if (myNetwork.isOnline()) {
             emit(MyResponse.Loading(null))
             try {
-                val response = apiService.createCategoryProvider(accessToken, mCategoryRequest)
+                val response = apiService.createProductsProvider(
+                    accessToken,
+                    categoryId,
+                    name,
+                    stock,
+                    price,
+                    promo,
+                    description,
+                    picture
+                )
 
                 if (response.isSuccessful) {
                     emit(MyResponse.Success(response.body()))
@@ -459,6 +559,68 @@ class MainRepository @Inject constructor(
             } catch (timeOut: SocketTimeoutException) {
                 emit(MyResponse.Error("Terjadi Kesalahan", null))
             }
+        } else {
+            emit(MyResponse.Error("Check your internet connection", null))
+        }
+    }
+
+
+    fun updateProductProvider(
+        accessToken: String,
+        productId: Int,
+        categoryId: RequestBody,
+        name: RequestBody,
+        stock: RequestBody,
+        price: RequestBody,
+        promo: RequestBody,
+        description: RequestBody?,
+        picture: MultipartBody.Part?
+    ) = flow {
+        if (myNetwork.isOnline()) {
+            emit(MyResponse.Loading(null))
+            try {
+                val response = apiService.updateProductProvider(
+                    accessToken,
+                    productId,
+                    categoryId,
+                    name,
+                    stock,
+                    price,
+                    promo,
+                    description,
+                    picture
+                )
+
+                if (response.isSuccessful) {
+                    emit(MyResponse.Success(response.body()))
+                } else {
+                    val message = getErrorMessage(response.errorBody()?.string())
+                    emit(MyResponse.Error(message, null))
+                }
+            } catch (timeOut: SocketTimeoutException) {
+                emit(MyResponse.Error("Terjadi Kesalahan", null))
+            }
+        } else {
+            emit(MyResponse.Error("Check your internet connection", null))
+        }
+    }
+
+    fun deleteProductProvider(accessToken: String, productId: Int) = flow {
+        if (myNetwork.isOnline()) {
+            try {
+                val response = apiService.deleteProductProvider(accessToken, productId)
+
+                if (response.isSuccessful) {
+                    emit(MyResponse.Success(response.body()))
+                } else {
+                    val message = getErrorMessage(response.errorBody()?.string())
+                    emit(MyResponse.Error(message, null))
+                }
+            } catch (timeOut: SocketTimeoutException) {
+                emit(MyResponse.Error("Terjadi Kesalahan", null))
+            }
+        } else {
+            emit(MyResponse.Error("Check yout internet connection", null))
         }
     }
 

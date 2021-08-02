@@ -11,7 +11,6 @@ data class LoginProducerResponse(
 	val meta: Meta
 )
 
-
 data class Result(
 
 	@field:SerializedName("access_token")
@@ -27,26 +26,3 @@ data class Result(
 	val tokenType: String
 )
 
-data class LoginProducerData(
-
-	@field:SerializedName("address")
-	val address: String,
-
-	@field:SerializedName("phoneNumber")
-	val phoneNumber: String,
-
-	@field:SerializedName("is_active")
-	val isActive: Boolean,
-
-	@field:SerializedName("name")
-	val name: String,
-
-	@field:SerializedName("rating")
-	val rating: Any,
-
-	@field:SerializedName("created_at")
-	val createdAt: String,
-
-	@field:SerializedName("username")
-	val username: String
-)

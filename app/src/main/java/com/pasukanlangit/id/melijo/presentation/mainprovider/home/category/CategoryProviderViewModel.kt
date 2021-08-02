@@ -17,13 +17,13 @@ class CategoryProviderViewModel @Inject constructor(
     private val _categoryProvider = MutableLiveData<MyResponse<CategoryResponse>>()
     val categoryProvider: LiveData<MyResponse<CategoryResponse>> = _categoryProvider
 
-    private val accessToken = "Bearer 12|AJm1il583FAaI7PSEFqHLAz87kcOYCoLNlarJXvN"
+    private val accessToken = mainRepository.getAccessToken() ?: ""
 
     init {
         getCategoryProvider()
     }
 
-    private fun getCategoryProvider() = viewModelScope.launch {
+    fun getCategoryProvider() = viewModelScope.launch {
         accessToken.let { token ->
             mainRepository.getCategoryProvider(token).collect {
                 _categoryProvider.value = it
@@ -32,4 +32,8 @@ class CategoryProviderViewModel @Inject constructor(
     }
 
     fun createCategoryProvider(mCategoryRequest: CategoryRequest) = mainRepository.createCategory(accessToken, mCategoryRequest).asLiveData()
+
+    fun updateCategoryProvider(categoryId: Int, mCategoryRequest: CategoryRequest) = mainRepository.updateCategory(accessToken, categoryId, mCategoryRequest).asLiveData()
+
+    fun deleteCategoryProvider(categoryId: Int) = mainRepository.deleteCategory(accessToken, categoryId).asLiveData()
 }
