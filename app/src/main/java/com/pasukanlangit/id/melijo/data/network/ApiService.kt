@@ -1,9 +1,6 @@
 package com.pasukanlangit.id.melijo.data.network
 
-import com.pasukanlangit.id.melijo.data.network.model.request.CategoryRequest
-import com.pasukanlangit.id.melijo.data.network.model.request.LoginRequest
-import com.pasukanlangit.id.melijo.data.network.model.request.OrderRequest
-import com.pasukanlangit.id.melijo.data.network.model.request.RegisterRequest
+import com.pasukanlangit.id.melijo.data.network.model.request.*
 import com.pasukanlangit.id.melijo.data.network.model.response.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -124,4 +121,16 @@ interface ApiService {
 
     @DELETE("producer/product/{product_id}")
     suspend fun deleteProductProvider(@Header("Authorization") token: String, @Path("product_id") product_id: Int): Response<MetaResponse>
+
+    @POST("producer/promo")
+    suspend fun createPromoProvider(@Header("Authorization") token: String, @Body mPromoRequest: PromoRequest) : Response<MetaResponse>
+
+    @GET("producer/promo")
+    suspend fun getPromoProvider(@Header("Authorization") token: String): Response<AllPromoResponse>
+
+    @PUT("producer/promo/{promo_id}")
+    suspend fun updatePromoProvider(@Header("Authorization") token: String, @Path("promo_id") promo_id: Int, @Body mPromoRequest: PromoRequest): Response<MetaResponse>
+
+    @DELETE("producer/promo/{promo_id}")
+    suspend fun deletePromoProvider(@Header("Authorization") token: String, @Path("promo_id") promo_id: Int): Response<MetaResponse>
 }

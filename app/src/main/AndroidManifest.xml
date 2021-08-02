@@ -15,7 +15,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Melijo">
-        <activity android:name=".presentation.mainprovider.home.ManageProducerActivity"></activity>
+        <activity android:name=".presentation.mainprovider.home.promo.AddUpdatePromoProviderActivity"></activity>
+        <activity android:name=".presentation.mainprovider.home.promo.PromoProviderActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".presentation.mainprovider.home.ManageProducerActivity" />
         <activity android:name=".presentation.main.checkout.seller.PayActivity" />
         <activity android:name=".presentation.main.promo.AllPromoActivity" />
         <activity android:name=".presentation.mainprovider.home.product.AddUpdateProductActivity" />
@@ -29,13 +37,7 @@
         <activity android:name=".presentation.main.home.supplier.product.AllProductMenuActivity" />
         <activity android:name=".presentation.main.home.seller.detial.DetailSellerActivity" />
         <activity android:name=".presentation.main.MainActivity" />
-        <activity android:name=".presentation.AuthActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".presentation.AuthActivity"></activity>
     </application>
 
 </manifest>

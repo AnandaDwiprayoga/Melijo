@@ -66,6 +66,8 @@
     <string name="title_add_product">Tambah Barang Jualan</string>
     <string name="title_update_product">Update Barang Jualan</string>
     <string name="title_list_product">Daftar Barang Jualan</string>
+    <string name="title_add_promo">Tambah Promo</string>
+    <string name="title_update_promo">Update Promo</string>
     <string name="format_price">Rp. %s</string>
     <string name="cancel">Batal</string>
     <string name="save">Simpan</string>
@@ -83,4 +85,7 @@
     <string name="kelola_produk">Kelola Produk</string>
     <string name="kelola_kategori">Kelola Kategori</string>
     <string name="kelola_promo">Kelola Promo</string>
+    <string name="name_promo">Nama Promo</string>
+    <string name="desc_promo">Ketentuan Promo</string>
+    <string name="discount_promo">Diskon Promo</string>
 </resources>

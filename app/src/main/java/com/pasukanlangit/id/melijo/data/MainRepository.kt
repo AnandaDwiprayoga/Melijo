@@ -6,10 +6,7 @@ import androidx.room.withTransaction
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.pasukanlangit.id.melijo.data.network.ApiService
-import com.pasukanlangit.id.melijo.data.network.model.request.CategoryRequest
-import com.pasukanlangit.id.melijo.data.network.model.request.LoginRequest
-import com.pasukanlangit.id.melijo.data.network.model.request.OrderRequest
-import com.pasukanlangit.id.melijo.data.network.model.request.RegisterRequest
+import com.pasukanlangit.id.melijo.data.network.model.request.*
 import com.pasukanlangit.id.melijo.data.network.model.response.*
 import com.pasukanlangit.id.melijo.data.room.MelijoDatabase
 import com.pasukanlangit.id.melijo.data.room.ProductDao
@@ -607,6 +604,8 @@ class MainRepository @Inject constructor(
 
     fun deleteProductProvider(accessToken: String, productId: Int) = flow {
         if (myNetwork.isOnline()) {
+            emit(MyResponse.Loading(null))
+
             try {
                 val response = apiService.deleteProductProvider(accessToken, productId)
 
@@ -659,6 +658,91 @@ class MainRepository @Inject constructor(
                 emit(MyResponse.Error("Check your internet connection", null))
             }
         } as Flow<MyResponse<MetaResponse>>
+
+    fun createPromoProvider(accessToken: String, mPromoRequest: PromoRequest) = flow {
+        if (myNetwork.isOnline()) {
+            emit(MyResponse.Loading(null))
+
+            try {
+                val response = apiService.createPromoProvider(accessToken, mPromoRequest)
+
+                if (response.isSuccessful) {
+                    emit(MyResponse.Success(response.body()))
+                } else {
+                    val message = getErrorMessage(response.errorBody()?.string())
+                    emit(MyResponse.Error(message, null))
+                }
+            } catch (timeOut: SocketTimeoutException) {
+                emit(MyResponse.Error("Terjadi Kesalahan", null))
+            }
+        } else {
+            emit(MyResponse.Error("Check your internet connection", null))
+        }
+    }
+
+    fun getPromoProvider(accessToken: String): Flow<MyResponse<AllPromoResponse>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+
+                try {
+                    val response = apiService.getPromoProvider(accessToken)
+
+                    if (response.isSuccessful) {
+                        emit(MyResponse.Success(response.body()))
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOut: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            } else {
+                emit(MyResponse.Error("Check your internat connection", null))
+            }
+        } as Flow<MyResponse<AllPromoResponse>>
+
+    fun updatePromoProvider(accessToken: String, promoId: Int, mPromoRequest: PromoRequest) = flow {
+        if (myNetwork.isOnline()) {
+            emit(MyResponse.Loading(null))
+
+            try {
+                val response = apiService.updatePromoProvider(accessToken, promoId, mPromoRequest)
+
+                if (response.isSuccessful) {
+                    emit(MyResponse.Success(response.body()))
+                } else {
+                    val message = getErrorMessage(response.errorBody()?.string())
+                    emit(MyResponse.Error(message, null))
+                }
+            } catch (timeOut: SocketTimeoutException) {
+                emit(MyResponse.Error("Terjadi Kesalahan", null))
+            }
+        } else {
+            emit(MyResponse.Error("Check your internet connection", null))
+        }
+    }
+
+    fun deletePromoProvider(accessToken: String, promoId: Int) = flow {
+        if (myNetwork.isOnline()) {
+            emit(MyResponse.Loading(null))
+
+            try {
+                val response = apiService.deletePromoProvider(accessToken, promoId)
+
+                if (response.isSuccessful) {
+                    emit(MyResponse.Success(response.body()))
+                } else {
+                    val message = getErrorMessage(response.errorBody()?.string())
+                    emit(MyResponse.Error(message, null))
+                }
+            } catch (timeOut: SocketTimeoutException) {
+                emit(MyResponse.Error("Terjadi Kesalahan", null))
+            }
+        } else {
+            emit(MyResponse.Error("Check your internet connection", null))
+        }
+    }
 
     fun getProductSaved(ownerId: Int) = productDao.getAllProductFromCart(ownerId)
 
