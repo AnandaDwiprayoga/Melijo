@@ -18,6 +18,7 @@
         tools:text="Seafood"/>
 
     <ImageView
+        android:id="@+id/iv_expand"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:padding="2dp"

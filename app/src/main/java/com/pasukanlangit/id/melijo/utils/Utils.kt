@@ -1,10 +1,16 @@
 package com.pasukanlangit.id.melijo.utils
+import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.view.Window
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.pasukanlangit.id.melijo.R
+
+val PERMISSIONS_STORAGE = arrayOf(
+    Manifest.permission.READ_EXTERNAL_STORAGE,
+    Manifest.permission.WRITE_EXTERNAL_STORAGE
+)
 
 object MyUtils {
     fun setToolbarGreen(window: Window, context: Context){

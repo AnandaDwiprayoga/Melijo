@@ -12,9 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.pasukanlangit.id.melijo.R
 import com.pasukanlangit.id.melijo.databinding.FragmentHomeSupProductBinding
-import com.pasukanlangit.id.melijo.presentation.main.home.seller.detial.ProductSellerDetailAdapter
-import com.pasukanlangit.id.melijo.presentation.main.home.supplier.product.CategorySupplierAdapter
-import com.pasukanlangit.id.melijo.presentation.main.home.supplier.product.ProductSupplierAdapter
 import com.pasukanlangit.id.melijo.presentation.mainprovider.MainProviderViewModel
 import com.pasukanlangit.id.melijo.utils.GridSpacingItemDecoration
 import com.pasukanlangit.id.melijo.utils.MyResponse
@@ -26,7 +23,7 @@ class HomeSupProductFragment(private val typeProduct: HomeBaseSupType) : Fragmen
     private val viewModel: MainProviderViewModel by viewModels()
 
     private lateinit var adapterProduct: ProductBaseSupplierAdapter
-    private lateinit var adapterCategory: CategorySupplierAdapter
+    private lateinit var adapterCategory: CategorySupBaseAdapter
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,6 +31,22 @@ class HomeSupProductFragment(private val typeProduct: HomeBaseSupType) : Fragmen
 
         observeProduct()
         observeCategory()
+        observePromo()
+    }
+
+    private fun observePromo() {
+        viewModel.promoProvider.observe(viewLifecycleOwner){
+            binding.loading.isVisible = it is MyResponse.Loading
+            when(it){
+                is MyResponse.Success -> {
+                    binding.rv.adapter = PromoSupBaseAdapter(it.data?.result ?: emptyList())
+                }
+                is MyResponse.Error -> {
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                }
+                else -> {}
+            }
+        }
     }
 
     private fun observeCategory() {
@@ -62,7 +75,16 @@ class HomeSupProductFragment(private val typeProduct: HomeBaseSupType) : Fragmen
                 setUpRvCategory()
                 viewModel.getCategoryProvider()
             }
-            else -> {}
+            HomeBaseSupType.TYPE_PROMO -> {
+                setUpRvPromo()
+                viewModel.getPromoProvider()
+            }
+        }
+    }
+
+    private fun setUpRvPromo() {
+        with(binding.rv){
+            layoutManager = LinearLayoutManager(requireContext())
         }
     }
 
@@ -78,7 +100,7 @@ class HomeSupProductFragment(private val typeProduct: HomeBaseSupType) : Fragmen
     }
 
     private fun setUpRvCategory() {
-        adapterCategory = CategorySupplierAdapter()
+        adapterCategory = CategorySupBaseAdapter()
         with(binding.rv){
             layoutManager = LinearLayoutManager(requireContext())
             adapter = adapterCategory

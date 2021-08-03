@@ -1,13 +1,9 @@
 package com.pasukanlangit.id.melijo.presentation.mainprovider
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.pasukanlangit.id.melijo.data.MainRepository
-import com.pasukanlangit.id.melijo.data.network.model.response.AllProductSupplierResponse
-import com.pasukanlangit.id.melijo.data.network.model.response.CategoryResponse
-import com.pasukanlangit.id.melijo.data.network.model.response.ProfilProducerResponse
+import com.pasukanlangit.id.melijo.data.network.model.response.*
+import com.pasukanlangit.id.melijo.presentation.auth.UserType
 import com.pasukanlangit.id.melijo.utils.MyResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -28,14 +24,28 @@ class MainProviderViewModel @Inject constructor(private val mainRepository: Main
     private val _categoryProvider = MutableLiveData<MyResponse<CategoryResponse>>()
     val categoryProvider: LiveData<MyResponse<CategoryResponse>> = _categoryProvider
 
+    private val _promoProvider = MutableLiveData<MyResponse<AllPromoResponse>>()
+    val promoProvider: LiveData<MyResponse<AllPromoResponse>> = _promoProvider
+
+    private val _allUsers = MutableLiveData<MyResponse<AllUserForProducerResponse>>()
+    val allUsers: LiveData<MyResponse<AllUserForProducerResponse>> = _allUsers
+
     init {
         getProfileProducer()
     }
 
-    private fun getProfileProducer() = viewModelScope.launch {
+    fun getProfileProducer() = viewModelScope.launch {
         accessToken.let { token ->
             mainRepository.getProfileProducer(token).collect {
                 _profileProducer.value = it
+            }
+        }
+    }
+
+    fun getPromoProvider() = viewModelScope.launch {
+        accessToken.let { token ->
+            mainRepository.getPromoProvider(token).collect { response ->
+                _promoProvider.value = response
             }
         }
     }
@@ -48,6 +58,14 @@ class MainProviderViewModel @Inject constructor(private val mainRepository: Main
         }
     }
 
+    fun getAllUserForProducer() = viewModelScope.launch {
+        accessToken.let { token ->
+            mainRepository.getAllUsersForProducer(token).collect {
+                _allUsers.value = it
+            }
+        }
+    }
+
     fun getCategoryProvider() = viewModelScope.launch {
         accessToken.let { token ->
             mainRepository.getCategoryProvider(token).collect {
@@ -55,4 +73,11 @@ class MainProviderViewModel @Inject constructor(private val mainRepository: Main
             }
         }
     }
+
+    fun logout() = mainRepository.logout(accessToken,UserType.TYPE_SUPPLIER).asLiveData()
+    fun toggleStatus() = mainRepository.toggleStatusProducer(accessToken).asLiveData()
+
+    fun removeAccessToken() = mainRepository.removeAccessToken()
+    fun setSession(value: Boolean) = mainRepository.setSession(value)
+
 }

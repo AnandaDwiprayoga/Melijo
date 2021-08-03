@@ -17,7 +17,7 @@ class PromoProviderViewModel @Inject constructor(
     private val _promoProvider = MutableLiveData<MyResponse<AllPromoResponse>>()
     val promoProvider: LiveData<MyResponse<AllPromoResponse>> = _promoProvider
 
-    private val accessToken = "Bearer 12|AJm1il583FAaI7PSEFqHLAz87kcOYCoLNlarJXvN"
+    private val accessToken = mainRepository.getAccessToken() ?: ""
 
     init {
         collectPromoProvider()

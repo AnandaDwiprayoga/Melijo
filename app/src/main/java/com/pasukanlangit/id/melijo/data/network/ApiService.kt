@@ -41,7 +41,7 @@ interface ApiService {
     @GET("product")
     suspend fun getAllProductSupplier(@Header("Authorization") token: String) : Response<AllProductSupplierResponse>
 
-    @GET("product")
+    @GET("category")
     suspend fun getAllCategorySupplier(@Header("Authorization") token: String) : Response<CategoryResponse>
 
     @GET("product")
@@ -49,6 +49,9 @@ interface ApiService {
 
     @GET("user/profile")
     suspend fun getProfileUser(@Header("Authorization") token: String) : Response<UserProfileResponse>
+
+    @GET("producer/users")
+    suspend fun getAllUserForProducer(@Header("Authorization") token: String) : Response<AllUserForProducerResponse>
 
     @GET("transaction")
     suspend fun getTransactionForBuyer(@Header("Authorization") token: String) : Response<OrderBuyerResponse>
@@ -69,6 +72,16 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Part("name") name: RequestBody,
         @Part("email") email: RequestBody,
+        @Part("address") address: RequestBody,
+        @Part("phoneNumber") phoneNumber: RequestBody,
+        @Part image : MultipartBody.Part?
+    ) : Response<MetaResponse>
+
+    @Multipart
+    @POST("producer/profile")
+    suspend fun updateProfilProvider(
+        @Header("Authorization") token: String,
+        @Part("name") name: RequestBody,
         @Part("address") address: RequestBody,
         @Part("phoneNumber") phoneNumber: RequestBody,
         @Part image : MultipartBody.Part?
@@ -104,6 +117,9 @@ interface ApiService {
 
     @GET("producer/profile")
     suspend fun getProfileProducer(@Header("Authorization") token: String): Response<ProfilProducerResponse>
+
+    @PATCH("producer/status")
+    suspend fun toggleStatusProvider(@Header("Authorization") token: String): Response<LoginProducerResponse>
 
     @Multipart
     @POST("producer/product/{product_id}")

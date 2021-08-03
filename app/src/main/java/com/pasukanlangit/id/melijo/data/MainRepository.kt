@@ -108,6 +108,8 @@ class MainRepository @Inject constructor(
         }
     }
 
+
+
     fun register(registerRequest: RegisterRequest, userType: UserType) = flow {
         if (myNetwork.isOnline()) {
             emit(MyResponse.Loading(null))
@@ -208,6 +210,28 @@ class MainRepository @Inject constructor(
             }
         } as Flow<MyResponse<AllProductSupplierResponse>>
 
+    fun getAllUsersForProducer(accessToken: String): Flow<MyResponse<AllUserForProducerResponse>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+
+                try {
+                    val response = apiService.getAllUserForProducer(accessToken)
+
+                    if (response.isSuccessful) {
+                        emit(MyResponse.Success(response.body()))
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOut: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            } else {
+                emit(MyResponse.Error("Check your internet connection", null))
+            }
+        } as Flow<MyResponse<AllUserForProducerResponse>>
+
     fun getAllProductSupplierByCategory(
         accessToken: String,
         idCategory: Int
@@ -255,7 +279,29 @@ class MainRepository @Inject constructor(
             }
         } as Flow<MyResponse<CategoryResponse>>
 
-    fun logout(accessToken: String, userType: UserType) = flow {
+    fun toggleStatusProducer(accessToken: String): Flow<MyResponse<LoginProducerResponse>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+
+                try {
+                    val response = apiService.toggleStatusProvider(accessToken)
+
+                    if (response.isSuccessful) {
+                        emit(MyResponse.Success(response.body()))
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOut: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            } else {
+                emit(MyResponse.Error("Check your internet connection", null))
+            }
+        } as Flow<MyResponse<LoginProducerResponse>>
+
+    fun logout(accessToken: String, userType: UserType) : Flow<MyResponse<MetaResponse>> = flow {
         if (myNetwork.isOnline()) {
             emit(MyResponse.Loading(null))
 
@@ -284,7 +330,7 @@ class MainRepository @Inject constructor(
         } else {
             emit(MyResponse.Error("Check your internet connection", null))
         }
-    }
+    } as Flow<MyResponse<MetaResponse>>
 
     fun getProfileUser(accessToken: String): Flow<MyResponse<UserProfileResponse>> =
         flow {
@@ -640,6 +686,40 @@ class MainRepository @Inject constructor(
                         token,
                         name,
                         email,
+                        address,
+                        phoneNumber,
+                        image
+                    )
+
+                    if (response.isSuccessful) {
+                        emit(MyResponse.Success(response.body()))
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOut: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            } else {
+                emit(MyResponse.Error("Check your internet connection", null))
+            }
+        } as Flow<MyResponse<MetaResponse>>
+
+    fun updateProfileProvider(
+        token: String,
+        name: RequestBody,
+        address: RequestBody,
+        phoneNumber: RequestBody,
+        image: MultipartBody.Part?
+    ): Flow<MyResponse<MetaResponse>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+
+                try {
+                    val response = apiService.updateProfilProvider(
+                        token,
+                        name,
                         address,
                         phoneNumber,
                         image

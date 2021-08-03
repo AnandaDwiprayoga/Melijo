@@ -96,4 +96,8 @@ dependencies {
     implementation "androidx.room:room-ktx:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
 
+
+    //toggle on off
+    implementation "com.github.angads25:toggle:$toggle_version"
+
 }

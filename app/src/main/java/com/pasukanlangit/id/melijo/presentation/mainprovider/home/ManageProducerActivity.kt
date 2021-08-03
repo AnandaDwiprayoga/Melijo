@@ -8,6 +8,7 @@ import com.pasukanlangit.id.melijo.R
 import com.pasukanlangit.id.melijo.databinding.ActivityManageProducerBinding
 import com.pasukanlangit.id.melijo.presentation.mainprovider.home.category.CategoryProviderActivity
 import com.pasukanlangit.id.melijo.presentation.mainprovider.home.product.ProductProviderActivity
+import com.pasukanlangit.id.melijo.presentation.mainprovider.home.promo.PromoProviderActivity
 import com.pasukanlangit.id.melijo.utils.MyUtils
 
 class ManageProducerActivity : AppCompatActivity(R.layout.activity_manage_producer) {
@@ -25,8 +26,8 @@ class ManageProducerActivity : AppCompatActivity(R.layout.activity_manage_produc
         binding.btnKategori.setOnClickListener {
             startActivity(Intent(this, CategoryProviderActivity::class.java))
         }
-//        binding.btnPromo.setOnClickListener {
-//            startActivity(Intent(this, CategoryProviderActivity::class.java))
-//        }
+        binding.btnPromo.setOnClickListener {
+            startActivity(Intent(this, PromoProviderActivity::class.java))
+        }
     }
 }

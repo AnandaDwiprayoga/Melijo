@@ -11,7 +11,7 @@
         android:icon="@drawable/ic_order"/>
 
     <item
-        android:id="@+id/messageProviderFragment"
+        android:id="@+id/messageFragment"
         android:title="@string/inbox"
         android:icon="@drawable/ic_message"/>
 

@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.mapbox.mapboxsdk.Mapbox
 import com.pasukanlangit.id.melijo.R
 import com.pasukanlangit.id.melijo.databinding.ActivityMainProviderBinding
 import com.pasukanlangit.id.melijo.presentation.auth.UserType
@@ -23,6 +24,7 @@ class MainProviderActivity : AppCompatActivity(R.layout.activity_main_provider) 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Mapbox.getInstance(this,getString(R.string.mapbox_access_token))
 
         MyUtils.setToolbarGreen(window, this)
 

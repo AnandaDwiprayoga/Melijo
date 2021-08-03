@@ -27,11 +27,6 @@ import okhttp3.RequestBody.Companion.toRequestBody
 @AndroidEntryPoint
 class ChangeProfileUserActivity : AppCompatActivity(R.layout.activity_change_profile_user) {
 
-    private val PERMISSIONS = arrayOf(
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
-    )
-
     private var imageUri: Uri? = null
     private val binding: ActivityChangeProfileUserBinding by viewBinding()
     private val viewModel: ChangeProfileUserViewModel by viewModels()
@@ -76,11 +71,11 @@ class ChangeProfileUserActivity : AppCompatActivity(R.layout.activity_change_pro
                     return@setOnClickListener
                 }
 
-                if (hasPermissions(this@ChangeProfileUserActivity,PERMISSIONS)) {
+                if (hasPermissions(this@ChangeProfileUserActivity, PERMISSIONS_STORAGE)) {
                     selectImageIntent()
                 } else {
                     permReqLauncher.launch(
-                        PERMISSIONS
+                        PERMISSIONS_STORAGE
                     )
                 }
             }

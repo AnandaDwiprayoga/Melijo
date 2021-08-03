@@ -1,14 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F1F1F1"
     tools:context=".presentation.mainprovider.home.HomeBaseSellerFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/wrapper_top"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Home Seller" />
+        android:layout_height="wrap_content"
+        android:background="@color/teal_700"
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/icon_notif"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:contentDescription="@string/icon"
+            android:padding="4dp"
+            android:src="@drawable/icon_notif"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edt_search"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/white"
+            android:drawableStart="@drawable/icon_search"
+            android:drawablePadding="4dp"
+            android:fontFamily="@font/poppins_regular"
+            android:gravity="center_vertical"
+            android:hint="@string/cari_di_toko"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingHorizontal="8dp"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@id/icon_notif"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/mapsview"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintTop_toBottomOf="@id/wrapper_top" />
+
+    <ProgressBar
+        android:id="@+id/loading_maps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/mapsview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/wrapper_top"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/iv_seller"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mapsview" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@id/iv_seller"
+        app:layout_constraintEnd_toStartOf="@+id/labeledSwitch"
+        app:layout_constraintStart_toEndOf="@+id/iv_seller"
+        app:layout_constraintTop_toTopOf="@+id/iv_seller">
+
+        <TextView
+            android:id="@+id/tv_name_seller"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            tools:text="Sukron Farm" />
+
+        <TextView
+            android:id="@+id/tv_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/icon_star"
+            android:fontFamily="@font/poppins_regular"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            tools:text="4.8" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:background="#E4E4E4"
+        android:padding="2dp"
+        android:text="Jualan"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/labeledSwitch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/labeledSwitch" />
+
+    <com.github.angads25.toggle.widget.LabeledSwitch
+        android:id="@+id/labeledSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:colorBorder="#00c4a6"
+        app:colorOn="#00c4a6"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_seller"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_seller" />
+
+    <Button
+        android:id="@+id/btn_atur"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="18dp"
+        android:background="?colorSecondaryVariant"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Atur Jualan"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@+id/iv_seller" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_product"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        tools:listitem="@layout/item_product_base_seller"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_atur" />
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mapsview"
+        tools:visibility="visible" />
+</androidx.constraintlayout.widget.ConstraintLayout>

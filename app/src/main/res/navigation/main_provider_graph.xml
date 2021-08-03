@@ -11,16 +11,6 @@
         android:label="fragment_home_provider"
         tools:layout="@layout/fragment_home_base_seller" />
     <fragment
-        android:id="@+id/accountProviderFragment"
-        android:name="com.pasukanlangit.id.melijo.presentation.mainprovider.acount.AccountProviderFragment"
-        android:label="fragment_account_provider"
-        tools:layout="@layout/fragment_account_provider" />
-    <fragment
-        android:id="@+id/messageProviderFragment"
-        android:name="com.pasukanlangit.id.melijo.presentation.mainprovider.message.MessageProviderFragment"
-        android:label="fragment_message_provider"
-        tools:layout="@layout/fragment_message_provider" />
-    <fragment
         android:id="@+id/orderProviderFragment"
         android:name="com.pasukanlangit.id.melijo.presentation.mainprovider.order.OrderProviderFragment"
         android:label="fragment_order_provider"
@@ -30,4 +20,14 @@
         android:name="com.pasukanlangit.id.melijo.presentation.mainprovider.home.HomeBaseSupplierFragment"
         android:label="fragment_home_base_supplier"
         tools:layout="@layout/fragment_home_base_supplier" />
+    <fragment
+        android:id="@+id/messageFragment"
+        android:name="com.pasukanlangit.id.melijo.presentation.main.MessageFragment"
+        android:label="fragment_message"
+        tools:layout="@layout/fragment_message" />
+    <fragment
+        android:id="@+id/accountProviderFragment"
+        android:name="com.pasukanlangit.id.melijo.presentation.mainprovider.acount.AccountProviderFragment"
+        android:label="fragment_account_provider"
+        tools:layout="@layout/fragment_account_provider" />
 </navigation>

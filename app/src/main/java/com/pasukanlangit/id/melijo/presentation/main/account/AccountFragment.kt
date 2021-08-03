@@ -70,11 +70,11 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
                     }else{
                         if(accountType == UserType.TYPE_BUYER.value){
                             viewModel.logout(token, UserType.TYPE_BUYER).observe(viewLifecycleOwner){
-                                updateUILogout(it)
+                                observeLogout(it)
                             }
                         }else{
                             viewModel.logout(token, UserType.TYPE_SELLER).observe(viewLifecycleOwner){
-                                updateUILogout(it)
+                                observeLogout(it)
                             }
                         }
                     }
@@ -123,7 +123,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         }
     }
 
-    private fun updateUILogout(it: MyResponse<out MetaResponse?>?) {
+    private fun observeLogout(it: MyResponse<out MetaResponse?>?) {
         when (it) {
             is MyResponse.Success -> {
                 binding.btnLogout.hideProgress(getString(R.string.logout))
