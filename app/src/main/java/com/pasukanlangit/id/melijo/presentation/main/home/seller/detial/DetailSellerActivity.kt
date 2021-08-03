@@ -14,6 +14,7 @@ import com.pasukanlangit.id.melijo.R
 import com.pasukanlangit.id.melijo.data.network.model.response.ProductItem
 import com.pasukanlangit.id.melijo.databinding.ActivityDetailSellerBinding
 import com.pasukanlangit.id.melijo.presentation.main.checkout.seller.CheckoutSellerActivity
+import com.pasukanlangit.id.melijo.presentation.main.promo.AllPromoActivity
 import com.pasukanlangit.id.melijo.utils.MyResponse
 import com.pasukanlangit.id.melijo.utils.MyUtils
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,6 +59,10 @@ class DetailSellerActivity : AppCompatActivity(R.layout.activity_detail_seller),
                 putExtra(CheckoutSellerActivity.KEY_IMG_PRODUCER, imageProducer)
                 startActivity(this)
             }
+        }
+
+        binding.btnShowPromo.setOnClickListener {
+            startActivity(Intent(this, AllPromoActivity::class.java))
         }
 
 
