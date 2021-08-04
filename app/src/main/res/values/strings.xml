@@ -50,7 +50,7 @@
     <string name="harga">Harga</string>
     <string name="ongkir">Ongkir</string>
     <string name="promo">Promo</string>
-    <string name="total_pembayaran">Total Pembayaran</string>
+    <string name="total_pembayaran">Total Pembayaran (Tunai)</string>
     <string name="pesan">Pesan</string>
     <string name="zero_value">0</string>
     <string name="no_telp">No Telp.</string>
@@ -88,4 +88,10 @@
     <string name="name_promo">Nama Promo</string>
     <string name="desc_promo">Ketentuan Promo</string>
     <string name="discount_promo">Diskon Promo</string>
+    <string name="status_all">All</string>
+    <string name="in_process">in process</string>
+    <string name="rb_status_done">Done</string>
+    <string name="transaction_completed">Transaction\nCompleted</string>
+    <string name="detail_pesanan">Detail Pesanan</string>
+    <string name="status">Status</string>
 </resources>

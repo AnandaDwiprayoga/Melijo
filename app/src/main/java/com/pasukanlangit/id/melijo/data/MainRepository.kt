@@ -782,6 +782,96 @@ class MainRepository @Inject constructor(
             }
         } as Flow<MyResponse<AllPromoResponse>>
 
+    fun getTransactionByStatusProducer(accessToken: String, status : String?= null): Flow<MyResponse<TransactionProducerResponse>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+
+                try {
+                    val response = apiService.getTransactionByStatusProducer(accessToken,status)
+
+                    if (response.isSuccessful) {
+                        emit(MyResponse.Success(response.body()))
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOut: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            } else {
+                emit(MyResponse.Error("Check your internat connection", null))
+            }
+        } as Flow<MyResponse<TransactionProducerResponse>>
+
+    fun updateTransactionStatusProducer(accessToken: String, transactionId :Int, transactionRequest: UpdateTransactionRequest): Flow<MyResponse<SingleEvent<MetaResponse>>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+
+                try {
+                    val response = apiService.updateTransactionProducer(accessToken, transactionId, transactionRequest)
+
+                    if (response.isSuccessful) {
+                        response.body()?.let { body ->
+                            emit(MyResponse.Success(SingleEvent(body)))
+                        }
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOut: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            } else {
+                emit(MyResponse.Error("Check your internat connection", null))
+            }
+        } as Flow<MyResponse<SingleEvent<MetaResponse>>>
+
+    fun getTrxDetailProducer(accessToken: String, transactionId :Int): Flow<MyResponse<DetailTransactionForProducerResponse>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+
+                try {
+                    val response = apiService.getTransactionDetailProducer(accessToken, transactionId)
+
+                    if (response.isSuccessful) {
+                        emit(MyResponse.Success(response.body()))
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOut: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            } else {
+                emit(MyResponse.Error("Check your internat connection", null))
+            }
+        } as Flow<MyResponse<DetailTransactionForProducerResponse>>
+
+    fun getTrxDetailBuyer(accessToken: String, transactionId :Int): Flow<MyResponse<DetailTransactionBuyerResponse>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+
+                try {
+                    val response = apiService.getTransactionDetailBuyer(accessToken, transactionId)
+
+                    if (response.isSuccessful) {
+                        emit(MyResponse.Success(response.body()))
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOut: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            } else {
+                emit(MyResponse.Error("Check your internat connection", null))
+            }
+        } as Flow<MyResponse<DetailTransactionBuyerResponse>>
+
     fun updatePromoProvider(accessToken: String, promoId: Int, mPromoRequest: PromoRequest) = flow {
         if (myNetwork.isOnline()) {
             emit(MyResponse.Loading(null))

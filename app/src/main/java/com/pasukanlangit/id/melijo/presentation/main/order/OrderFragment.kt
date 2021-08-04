@@ -23,7 +23,6 @@ class OrderFragment : Fragment(R.layout.fragment_order){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getOrderTransaction()
         setUpRv()
         observeOrderTransaction()
     }
@@ -49,5 +48,10 @@ class OrderFragment : Fragment(R.layout.fragment_order){
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getOrderTransaction()
     }
 }

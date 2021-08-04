@@ -19,6 +19,9 @@ data class ResultItem(
 	@field:SerializedName("payment_url")
 	val paymentUrl: String,
 
+	@field:SerializedName("amount_of_goods")
+	val amountGoods: String,
+
 	@field:SerializedName("buyer_address")
 	val buyerAddress: String,
 

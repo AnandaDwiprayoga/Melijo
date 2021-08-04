@@ -15,9 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Melijo">
-        <activity android:name=".presentation.mainprovider.acount.update.ChangeProfileProviderActivity"/>
-        <activity android:name=".presentation.mainprovider.home.promo.AddUpdatePromoProviderActivity"></activity>
-        <activity android:name=".presentation.mainprovider.home.promo.PromoProviderActivity"/>
+        <activity android:name=".presentation.main.order.detail.DetailTrxBuyerActivity"></activity>
+        <activity android:name=".presentation.mainprovider.order.detail.DetailTrxProducerActivity" />
+        <activity android:name=".presentation.mainprovider.acount.update.ChangeProfileProviderActivity" />
+        <activity android:name=".presentation.mainprovider.home.promo.AddUpdatePromoProviderActivity" />
+        <activity android:name=".presentation.mainprovider.home.promo.PromoProviderActivity" />
         <activity android:name=".presentation.mainprovider.home.ManageProducerActivity" />
         <activity android:name=".presentation.main.checkout.seller.PayActivity" />
         <activity android:name=".presentation.main.promo.AllPromoActivity" />

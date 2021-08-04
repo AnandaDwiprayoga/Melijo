@@ -56,6 +56,15 @@ interface ApiService {
     @GET("transaction")
     suspend fun getTransactionForBuyer(@Header("Authorization") token: String) : Response<OrderBuyerResponse>
 
+    @GET("producer/transaction/detail/{trx_id}")
+    suspend fun getTransactionDetailProducer(@Header("Authorization") token: String, @Path("trx_id")trxId: Int) : Response<DetailTransactionForProducerResponse>
+
+    @GET("transaction/detail/{trx_id}")
+    suspend fun getTransactionDetailBuyer(@Header("Authorization") token: String, @Path("trx_id")trxId: Int) : Response<DetailTransactionBuyerResponse>
+
+    @GET("producer/transaction")
+    suspend fun getTransactionByStatusProducer(@Header("Authorization") token: String, @Query("status")status: String ?= null) : Response<TransactionProducerResponse>
+
     @GET("promo")
     suspend fun getPromoForUser(@Header("Authorization") token: String, @Query("level") level: String ?= null) : Response<AllPromoResponse>
 
@@ -149,4 +158,8 @@ interface ApiService {
 
     @DELETE("producer/promo/{promo_id}")
     suspend fun deletePromoProvider(@Header("Authorization") token: String, @Path("promo_id") promo_id: Int): Response<MetaResponse>
+
+    @PATCH("producer/transaction/status/{transaction_id}")
+    suspend fun updateTransactionProducer(@Header("Authorization") token: String, @Path("transaction_id") idTransaction: Int, @Body transactionRequest: UpdateTransactionRequest): Response<MetaResponse>
+
 }
