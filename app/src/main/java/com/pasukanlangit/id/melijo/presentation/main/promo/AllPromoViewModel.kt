@@ -25,7 +25,7 @@ class AllPromoViewModel @Inject constructor(private val mainRepository: MainRepo
     }
 
     private fun getAllPromoAvailableForUser() = viewModelScope.launch {
-        mainRepository.getAllPromoForUser(accessToken, UserType.TYPE_SUPPLIER.value).collect {
+        mainRepository.getAllPromoForUser(accessToken).collect {
             _promo.value = it
         }
     }

@@ -26,7 +26,7 @@ class DetailSellerActivity : AppCompatActivity(R.layout.activity_detail_seller),
 
     private val binding: ActivityDetailSellerBinding by viewBinding()
     private val viewModel: DetailSellerViewModel by viewModels()
-    private var distanceSeller : Int = 0
+    private var distanceSeller : Double = 0.0
     private var ownerId: Int = 0
 
     private var imageProducer : String ?= ""
@@ -43,7 +43,7 @@ class DetailSellerActivity : AppCompatActivity(R.layout.activity_detail_seller),
         adapter = ProductSellerDetailAdapter(this)
 
         val idSeller = intent.getIntExtra(KEY_ID_SELLER, -1)
-        distanceSeller = intent.getIntExtra(DISTANCE_SELLER, 0)
+        distanceSeller = intent.getDoubleExtra(DISTANCE_SELLER, 0.0)
 
         val accessToken = viewModel.getAccessToken()
 

@@ -44,7 +44,7 @@ class ProductByCategorySupActivity : AppCompatActivity(R.layout.activity_product
 
         binding.wrapperCartFloating.setOnClickListener {
             Intent(this, CheckoutSellerActivity::class.java).apply {
-                putExtra(DetailSellerActivity.DISTANCE_SELLER, MyUtils.getRandomDistance() )
+//                putExtra(DetailSellerActivity.DISTANCE_SELLER, MyUtils.getRandomDistance() )
                 putExtra(
                     CheckoutSellerActivity.KEY_OWNER_ID,
                     ProductSupplierViewModel.OWNER_ID_SUPPLIER

@@ -5,6 +5,7 @@ import androidx.lifecycle.asLiveData
 import com.pasukanlangit.id.melijo.data.MainRepository
 import com.pasukanlangit.id.melijo.data.network.model.request.LoginRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.RegisterRequest
+import com.pasukanlangit.id.melijo.data.network.model.request.UpdateLocationRequest
 import com.pasukanlangit.id.melijo.presentation.auth.UserType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -26,6 +27,8 @@ class AuthViewModel @Inject constructor(
     fun saveImageUser(photo: String) {
         mainRepository.setImageUser(photo)
     }
+
+    fun saveLocationUser(updateLocationRequest: UpdateLocationRequest) = mainRepository.setLocationUser(updateLocationRequest)
 
     fun saveNameUser(name: String) {
         mainRepository.setNameUser(name)

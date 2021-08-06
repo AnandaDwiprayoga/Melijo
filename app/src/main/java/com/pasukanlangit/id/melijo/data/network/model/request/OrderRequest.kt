@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class OrderRequest(
 
 	@field:SerializedName("total_pay")
-	val totalPay: Int,
+	val totalPay: Double,
 
 	@field:SerializedName("address")
 	val address: String,

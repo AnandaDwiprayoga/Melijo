@@ -48,7 +48,7 @@
     <string name="masukkan_alamat">Masukkan alamat...</string>
     <string name="daftar_promo">Daftar Promo</string>
     <string name="harga">Harga</string>
-    <string name="ongkir">Ongkir</string>
+    <string name="ongkir">Biaya Admin</string>
     <string name="promo">Promo</string>
     <string name="total_pembayaran">Total Pembayaran (Tunai)</string>
     <string name="pesan">Pesan</string>

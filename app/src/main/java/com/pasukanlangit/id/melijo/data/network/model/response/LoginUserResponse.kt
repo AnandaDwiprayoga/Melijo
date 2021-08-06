@@ -32,7 +32,13 @@ data class LoginData(
 	val email: String,
 
 	@field:SerializedName("username")
-	val username: String
+	val username: String,
+
+	@field:SerializedName("latitude")
+	val latitude: String,
+
+	@field:SerializedName("longitude")
+	val longitude: String
 )
 
 data class LoginResult(

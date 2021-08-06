@@ -28,6 +28,9 @@ data class LoginProducerData(
 	@field:SerializedName("latitude")
 	val latitude: String,
 
+	@field:SerializedName("longitude")
+	val longitude: String,
+
 	@field:SerializedName("name")
 	val name: String,
 
@@ -44,8 +47,5 @@ data class LoginProducerData(
 	val id: Int,
 
 	@field:SerializedName("username")
-	val username: String,
-
-	@field:SerializedName("longitude")
-	val longitude: String
+	val username: String
 ) : Parcelable

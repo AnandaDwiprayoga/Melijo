@@ -33,10 +33,13 @@ class CheckoutSellerActivity : AppCompatActivity(R.layout.activity_checkout_sell
     private var productsCartSaved: List<ProductItem>? = null
     private val binding: ActivityCheckoutSellerBinding by viewBinding()
     private val viewModel: CheckoutSellerViewModel by viewModels()
-    private var distanceSeller = 0
+    private var distanceSeller = 0.0
     private var promoSelected = 0
     private var price = 0
+    private var adminPrice = 0.0
     private var qty = 0
+    private var ownerId = -1
+    private var feeShipmentMultiple = 3000
 
     private var imageProducer : String ?= ""
     private var nameProducer : String ?= ""
@@ -58,10 +61,14 @@ class CheckoutSellerActivity : AppCompatActivity(R.layout.activity_checkout_sell
             )
         }
 
-        distanceSeller = intent.getIntExtra(DetailSellerActivity.DISTANCE_SELLER, 0)
+//        distanceSeller = intent.getDoubleExtra(DetailSellerActivity.DISTANCE_SELLER, 0.0)
 
         mAdapter = ProductCheckoutAdapter(emptyList(), this)
-        val ownerId = intent.getIntExtra(KEY_OWNER_ID, -1)
+        ownerId = intent.getIntExtra(KEY_OWNER_ID, -1)
+
+        if(ownerId == OWNER_ID_SUPPLIER){
+            feeShipmentMultiple = 5000
+        }
 
         binding.ivBuyer.isVisible = ownerId != OWNER_ID_SUPPLIER
         binding.tvNameBuyer.isVisible = ownerId != OWNER_ID_SUPPLIER
@@ -92,7 +99,7 @@ class CheckoutSellerActivity : AppCompatActivity(R.layout.activity_checkout_sell
                             putExtra(PayActivity.KEY_DATA_TRX, it.result)
                             putExtra(
                                 PayActivity.KEY_SHIPMENT_PRICE,
-                                "Rp ${distanceSeller.times(1000)}"
+                                "Rp $adminPrice"
                             )
                             putExtra(PayActivity.KEY_PROMO_PRICE, "${prefixPromo}Rp $promoSelected")
                             putExtra(PayActivity.KEY_IMG_PRODUCER, imageProducer)
@@ -130,7 +137,7 @@ class CheckoutSellerActivity : AppCompatActivity(R.layout.activity_checkout_sell
                             )
                         }
                         val orderRequest = OrderRequest(
-                            price.plus(distanceSeller.times(1000)).minus(promoSelected),
+                            price.plus(adminPrice).minus(promoSelected),
                             address,
                             listProductBuy
                         )
@@ -167,7 +174,7 @@ class CheckoutSellerActivity : AppCompatActivity(R.layout.activity_checkout_sell
             if (promoSelected != 0) prefixPromo.append("-")
             binding.tvPricePromo.text = "${prefixPromo}Rp $promoSelected"
             binding.tvPriceTot.text =
-                "Rp ${price.plus(distanceSeller.times(1000)).minus(promoSelected)}"
+                "Rp ${price.plus(adminPrice).minus(promoSelected)}"
         }
     }
 
@@ -181,11 +188,20 @@ class CheckoutSellerActivity : AppCompatActivity(R.layout.activity_checkout_sell
                 qty += product.qty
             }
 
+            if(ownerId == OWNER_ID_SUPPLIER){
+                distanceSeller = it.size.toDouble()
+                adminPrice = 0.1 * price + distanceSeller.times(feeShipmentMultiple)
+            }else{
+                adminPrice = 0.15 * price
+            }
+
+
             mAdapter.setNewItems(it.toMutableList())
 
+            binding.tvPriceOngkir.text = "Rp $adminPrice"
             binding.tvPrice.text = "Rp $price"
             binding.tvPriceTot.text =
-                "Rp ${price.plus(distanceSeller.times(1000)).minus(promoSelected)}"
+                "Rp ${price.plus(adminPrice).minus(promoSelected)}"
         })
     }
 
@@ -201,7 +217,7 @@ class CheckoutSellerActivity : AppCompatActivity(R.layout.activity_checkout_sell
             .into(binding.ivBuyer)
 
         binding.tvNameBuyer.text = viewModel.nameUser
-        binding.tvPriceOngkir.text = "Rp ${distanceSeller.times(1000)}"
+        binding.tvPriceOngkir.text = "Rp $adminPrice"
     }
 
     override fun updateProductCart(productItem: ProductItem) {

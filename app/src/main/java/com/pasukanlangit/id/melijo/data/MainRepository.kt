@@ -872,6 +872,51 @@ class MainRepository @Inject constructor(
             }
         } as Flow<MyResponse<DetailTransactionBuyerResponse>>
 
+    fun updateLocationProducer(accessToken: String, locationRequest: UpdateLocationRequest): Flow<MyResponse<MetaResponse>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+
+                try {
+                    val response = apiService.updateLocationProducer(accessToken, locationRequest)
+
+                    if (response.isSuccessful) {
+                        emit(MyResponse.Success(response.body()))
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOut: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            } else {
+                emit(MyResponse.Error("Check your internat connection", null))
+            }
+        } as Flow<MyResponse<MetaResponse>>
+
+    fun updateLocationUser(accessToken: String, locationRequest: UpdateLocationRequest): Flow<MyResponse<MetaResponse>> =
+        flow {
+            if (myNetwork.isOnline()) {
+                emit(MyResponse.Loading(null))
+
+                try {
+                    val response = apiService.updateLocationUser(accessToken, locationRequest)
+
+                    if (response.isSuccessful) {
+                        emit(MyResponse.Success(response.body()))
+                    } else {
+                        val message = getErrorMessage(response.errorBody()?.string())
+                        emit(MyResponse.Error(message, null))
+                    }
+                } catch (timeOut: SocketTimeoutException) {
+                    emit(MyResponse.Error("Terjadi Kesalahan", null))
+                }
+            } else {
+                emit(MyResponse.Error("Check your internat connection", null))
+            }
+        } as Flow<MyResponse<MetaResponse>>
+
+
     fun updatePromoProvider(accessToken: String, promoId: Int, mPromoRequest: PromoRequest) = flow {
         if (myNetwork.isOnline()) {
             emit(MyResponse.Loading(null))
@@ -927,6 +972,8 @@ class MainRepository @Inject constructor(
     fun getNameUser(): String? = authSharedPref.getNameUser()
     fun setSession(value: Boolean) = authSharedPref.setIsSaveSession(value)
     fun getSession(): Boolean = authSharedPref.getIsSaveSession()
+    fun setLocationUser(location: UpdateLocationRequest) = authSharedPref.setLocationUser(location)
+    fun getLocationUser(): UpdateLocationRequest? = authSharedPref.getLocationUser()
     suspend fun insertProduct(productItem: ProductItem) = productDao.insertProduct(productItem)
     suspend fun updateProduct(productItem: ProductItem) = productDao.updateProduct(productItem)
     suspend fun deleteProduct(productItem: ProductItem) = productDao.deleteProduct(productItem)

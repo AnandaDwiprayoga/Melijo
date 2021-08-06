@@ -45,7 +45,7 @@ class SupProductWrapperFragment : Fragment(R.layout.fragment_sup_product_wrapper
 
         binding.wrapperCartFloating.setOnClickListener {
             Intent(requireContext(), CheckoutSellerActivity::class.java).apply {
-                putExtra(DetailSellerActivity.DISTANCE_SELLER, MyUtils.getRandomDistance() )
+//                putExtra(DetailSellerActivity.DISTANCE_SELLER, MyUtils.getRandomDistance() )
                 putExtra(CheckoutSellerActivity.KEY_OWNER_ID, OWNER_ID_SUPPLIER)
                 startActivity(this)
             }

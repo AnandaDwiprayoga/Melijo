@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.pasukanlangit.id.melijo.data.network.model.request.UpdateLocationRequest
 import com.pasukanlangit.id.melijo.data.network.model.response.DataSeller
 import com.pasukanlangit.id.melijo.databinding.ItemListSellerBinding
 import com.pasukanlangit.id.melijo.presentation.main.home.seller.detial.DetailSellerActivity
 import com.pasukanlangit.id.melijo.utils.MyUtils
-import kotlin.random.Random
 
-class SellersAdapter : ListAdapter<DataSeller, SellersAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class SellersAdapter(private val locationUser: UpdateLocationRequest?) : ListAdapter<DataSeller, SellersAdapter.MyViewHolder>(DIFF_CALLBACK) {
     inner class MyViewHolder(val binding: ItemListSellerBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -26,7 +26,11 @@ class SellersAdapter : ListAdapter<DataSeller, SellersAdapter.MyViewHolder>(DIFF
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentSeller = getItem(position)
         with(holder.binding){
-            val dummyDistance = MyUtils.getRandomDistance()
+            val dummyDistance = if(locationUser == null) {
+                MyUtils.getRandomDistance()
+            }else{
+                MyUtils.getKilometers(locationUser.latitude, locationUser.longitude, currentSeller.latitude, currentSeller.longitude)
+            }
 
             Glide.with(this.root)
                 .load(currentSeller.photo)

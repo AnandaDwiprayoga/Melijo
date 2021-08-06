@@ -162,4 +162,10 @@ interface ApiService {
     @PATCH("producer/transaction/status/{transaction_id}")
     suspend fun updateTransactionProducer(@Header("Authorization") token: String, @Path("transaction_id") idTransaction: Int, @Body transactionRequest: UpdateTransactionRequest): Response<MetaResponse>
 
+    @PATCH("user/location")
+    suspend fun updateLocationUser(@Header("Authorization") token: String,  @Body updateLocationRequest: UpdateLocationRequest): Response<MetaResponse>
+
+    @PATCH("producer/location")
+    suspend fun updateLocationProducer(@Header("Authorization") token: String,  @Body updateLocationRequest: UpdateLocationRequest): Response<MetaResponse>
+
 }

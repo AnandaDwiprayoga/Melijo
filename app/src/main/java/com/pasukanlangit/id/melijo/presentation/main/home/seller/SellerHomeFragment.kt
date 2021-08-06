@@ -1,11 +1,9 @@
 package com.pasukanlangit.id.melijo.presentation.main.home.seller
 
-import android.R.attr.bitmap
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.view.animation.BounceInterpolator
@@ -56,7 +54,7 @@ class SellerHomeFragment : Fragment(R.layout.fragment_home_seller){
 
         accessToken = viewModel.getAccessToken()
 
-        sellersAdapter = SellersAdapter()
+        sellersAdapter = SellersAdapter(viewModel.getLocationUser())
         setUpRecyclerlView()
 
         binding.mapsview.onCreate(savedInstanceState)

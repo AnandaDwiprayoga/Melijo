@@ -2,6 +2,7 @@ package com.pasukanlangit.id.melijo.presentation.mainprovider
 
 import androidx.lifecycle.*
 import com.pasukanlangit.id.melijo.data.MainRepository
+import com.pasukanlangit.id.melijo.data.network.model.request.UpdateLocationRequest
 import com.pasukanlangit.id.melijo.data.network.model.request.UpdateTransactionRequest
 import com.pasukanlangit.id.melijo.data.network.model.response.*
 import com.pasukanlangit.id.melijo.presentation.auth.UserType
@@ -111,5 +112,8 @@ class MainProviderViewModel @Inject constructor(private val mainRepository: Main
 
     fun removeAccessToken() = mainRepository.removeAccessToken()
     fun setSession(value: Boolean) = mainRepository.setSession(value)
+    fun updateLocation(updateLocationRequest: UpdateLocationRequest) = mainRepository.updateLocationProducer(accessToken, updateLocationRequest).asLiveData()
 
+    fun saveLocationUser(updateLocationRequest: UpdateLocationRequest) = mainRepository.setLocationUser(updateLocationRequest)
+    fun getLocationUser() = mainRepository.getLocationUser()
 }
