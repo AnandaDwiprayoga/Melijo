@@ -95,6 +95,10 @@ class CheckoutSellerActivity : AppCompatActivity(R.layout.activity_checkout_sell
                         val prefixPromo = StringBuilder("")
                         if (promoSelected != 0) prefixPromo.append("-")
 
+                        productsCartSaved?.forEach { product ->
+                            viewModel.deleteProductCart(product)
+                        }
+
                         Intent(this, PayActivity::class.java).apply {
                             putExtra(PayActivity.KEY_DATA_TRX, it.result)
                             putExtra(
